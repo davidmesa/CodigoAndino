@@ -1,7 +1,8 @@
 CodigoAndino
 ============
 
-David Mesa
-Juan Sebastian Rolon
-Cristian Sierra
-Miguel Caldas
+* Miguel Caldas
+* David Mesa
+* Juan Sebastian Rolon
+* ~~Cristian Sierra~~
+
