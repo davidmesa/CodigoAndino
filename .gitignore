@@ -3,3 +3,6 @@
 .DS_Store
 Thumbs.db
 /bin
+/JEE/TeleConsulta/nbproject/private/
+/JEE/TeleConsulta/TeleConsulta-war/nbproject/private/
+/JEE/TeleConsulta/TeleConsulta-ejb/nbproject/private/
