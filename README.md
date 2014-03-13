@@ -44,19 +44,19 @@ Usando JNDI y la interfaz remota que implementa el bean de sesión como sigue:
 
 ```java
 	try
-        {
-            Properties env = new Properties();
-            env.put("java.naming.factory.initial", "com.sun.enterprise.naming.SerialInitContextFactory");
-            env.put("java.naming.factory.url.pkgs", "com.sun.enterprise.naming");
-            env.put("org.omg.CORBA.ORBInitialPort", "3700");
-            InitialContext contexto;
-            contexto = new InitialContext(env);
-            servicio = (IServicioVendedoresMockRemote) contexto.lookup("com.losalpes.servicios.IServicioVendedoresMockRemote");
-        } 
-        catch (Exception e)
-        {
-            throw new Exception(e.getMessage());
-        }
+	{
+		Properties env = new Properties();
+		env.put("java.naming.factory.initial", "com.sun.enterprise.naming.SerialInitContextFactory");
+		env.put("java.naming.factory.url.pkgs", "com.sun.enterprise.naming");
+		env.put("org.omg.CORBA.ORBInitialPort", "3700");
+		InitialContext contexto;
+		contexto = new InitialContext(env);
+		servicio = (IServicioVendedoresMockRemote) contexto.lookup("com.losalpes.servicios.IServicioVendedoresMockRemote");
+	} 
+	catch (Exception e)
+	{
+		throw new Exception(e.getMessage());
+	}
 ```
 
 Adicionalmente, en el classpath de su app. cliente Java debe referenciar el jar “gf-client.jar” que se encuentra en su instalación de glassfish (i.e. ${GLASSFISH_HOME}/glassfish/lib/gf-client.jar) en lugar de copiarlo en su proyecto cliente.
