@@ -1,6 +1,11 @@
 CodigoAndino
 ============
 
+## Tag System
+Las versiones vX.5 son entregas del SAD, donde X es la entrega menos 1. Ej: v0.5 es el SAD de la entrega 1.
+
+Las versiones vX.0 son entregas del experimento, donde X es el numero de la entrega. Ej: v1.0 es la entrega del primer experimento.
+
 ## Integrantes
 
 * Miguel Caldas
