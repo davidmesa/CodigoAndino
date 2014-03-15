@@ -1,12 +1,14 @@
 package interfaz;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import mensajeria.Mensajero;
+
+@SuppressWarnings("serial")
 public class Principal extends JFrame {
 
 	private JPanel contentPane;
@@ -22,5 +24,8 @@ public class Principal extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 	}
-
+	
+	public static void main(String[] args) {
+		new Mensajero().autenticar("rolon", "1234");
+	}
 }
