@@ -19,7 +19,7 @@ public class Paciente {
      * Contrasena del paciente
      */
     private String contrasena;
-
+    
     /**
      * Constructor de la clase Paciente
      * @param usuario Nombre de usuario del paciente.

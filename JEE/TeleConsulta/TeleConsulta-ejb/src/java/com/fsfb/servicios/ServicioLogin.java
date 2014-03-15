@@ -18,24 +18,15 @@ import javax.security.auth.message.AuthException;
 public class ServicioLogin implements ServicioLoginLocal {
 
     /**
-     * HashMap que almacena los medicos.
+     * Interface de los Servicios FSFB
      */
-    private HashMap<String, Medico> medicos;
-    
-    /**
-     * HashMap que almacena los pacientes.
-     */
-    private HashMap<String, Paciente> pacientes;
+    private final ServicioFSFB fsfb;
     
     /**
      * Constructor del Servicio login
      */
     public ServicioLogin() {
-        medicos = new HashMap<String, Medico>();
-        medicos.put("davidmesa", new Medico("davidmesa", "algo"));
-        
-        pacientes = new HashMap<String, Paciente>();
-        pacientes.put("cristiansierra", new Paciente("cristiansierra", "algo"));
+        fsfb=new ServicioFSFB();
     }
 
     /**
@@ -46,7 +37,7 @@ public class ServicioLogin implements ServicioLoginLocal {
      */
     @Override
     public Medico loginMedico(String usuario, String contrasena) throws AuthException{
-        return null;
+        return fsfb.darMedicoPorDatos(usuario, contrasena);
     }
 
     /**
@@ -57,7 +48,7 @@ public class ServicioLogin implements ServicioLoginLocal {
      */
     @Override
     public Paciente loginPaciente(String token) throws AuthException{
-        return null;
+        return fsfb.darPacientePorToken(token);
     } 
 
     /**
@@ -69,6 +60,6 @@ public class ServicioLogin implements ServicioLoginLocal {
      */
     @Override
     public String getTokenPaciente(String usuario, String contrasena) throws AuthException{
-        return null;
+        return fsfb.darTokenDelPaciente(usuario, contrasena);
     }
 }
