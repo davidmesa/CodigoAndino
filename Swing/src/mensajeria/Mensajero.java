@@ -4,8 +4,12 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 public class Mensajero {
 
@@ -19,12 +23,60 @@ public class Mensajero {
 
 	private String token;
 
-	public String enviarTension() {
-		return null;
+	public String enviarTension(int diastole, int sistole, int pulso)
+			throws Exception {
+		if (token == null) {
+			throw new Exception();
+		} else {
+			HashMap<String, String> valores = new HashMap<String, String>();
+			valores.put("token", token);
+			valores.put("diastole", diastole + "");
+			valores.put("sistole", sistole + "");
+			valores.put("pulso", pulso + "");
+
+			HttpURLConnection conexion = getReadyConnection(TENSION_METHOD_NAME);
+			enviarMensaje(conexion, valores);
+			JSONObject response = (JSONObject) JSONValue.parse(darJSON(conexion
+					.getInputStream()));
+			conexion.disconnect();
+			
+			if(((String) response.get("status")).equals("error")) {
+				throw new Exception();
+			} else if(((String) response.get("status")).equals("alert")) {
+				return ((String) response.get("mensaje")).replaceAll("(\\\\|\\{|\\})", "");
+			}
+			return "ok";
+		}
 	}
 
-	public String enviarIMC() {
-		return null;
+	@SuppressWarnings("unchecked")
+	public String enviarIMC(double peso, int altura) throws Exception {
+		if (token == null) {
+			throw new Exception();
+		} else {
+			HashMap<String, String> valores = new HashMap<String, String>();
+			valores.put("token", token);
+			valores.put("peso", peso + "");
+			valores.put("altura", altura + "");
+
+			HttpURLConnection conexion = getReadyConnection(IMC_METHOD_NAME);
+			enviarMensaje(conexion, valores);
+			JSONObject response = (JSONObject) JSONValue.parse(darJSON(conexion
+					.getInputStream()));
+			conexion.disconnect();
+			
+			if(((String) response.get("status")).equals("error")) {
+				throw new Exception();
+			} else if(((String) response.get("status")).equals("alert")) {
+				ArrayList<String> consejo = (ArrayList<String>) response.get("consejo");
+				String res = "";
+				for(String s : consejo) {
+					res += s + "\n";
+				}
+				return res;
+			}
+			return "ok";
+		}
 	}
 
 	public void autenticar(String id, String password) throws Exception {
@@ -33,8 +85,15 @@ public class Mensajero {
 
 		HttpURLConnection conexion = getReadyConnection(AUTH_METHOD_NAME);
 		enviarMensaje(conexion, valores);
-		System.out.println(darJSON(conexion.getInputStream()));
+		JSONObject response = (JSONObject) JSONValue.parse(darJSON(conexion
+				.getInputStream()));
 		conexion.disconnect();
+
+		if (response.get("token") == null) {
+			throw new Exception();
+		} else {
+			token = (String) response.get("token");
+		}
 	}
 
 	private void enviarMensaje(HttpURLConnection conexion,
