@@ -51,7 +51,7 @@ public class Login extends JFrame {
 	 */
 	public Login() {
 		login = this;
-		mensajero = new Mensajero();
+		mensajero = Mensajero.getInstance();
 
 		setTitle("TeleConsulta");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -103,6 +103,7 @@ public class Login extends JFrame {
 						new Principal().setVisible(true);
 						login.dispose();
 					}
+
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}

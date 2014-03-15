@@ -67,6 +67,10 @@ public class TeleconsultaResource {
     @Produces("application/json")
     @Consumes("application/x-www-form-urlencoded")
     public String auth(@FormParam("id") String id, @FormParam("password") String password) {
-        return "{\"mensaje\":\"hola mundo\", \"token\":\""+id+"\"}";
+        String token = "";
+        if(id.equals("rolon") && password.equals("1234")) {
+            token = "welcome";
+        }
+        return "{\"token\":\""+token+"\"}";
     }
 }

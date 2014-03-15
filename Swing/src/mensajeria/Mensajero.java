@@ -21,7 +21,18 @@ public class Mensajero {
 
 	private static final String AUTH_METHOD_NAME = "/auth";
 
+	private static Mensajero instancia;
+	
 	private String token;
+	
+	public static Mensajero getInstance() {
+		if(instancia == null) {
+			instancia = new Mensajero();
+		}
+		return instancia;
+	}
+	
+	private Mensajero() {}
 
 	public String enviarTension(int diastole, int sistole, int pulso)
 			throws Exception {
@@ -83,7 +94,8 @@ public class Mensajero {
 
 	public boolean autenticar(String id, String password) throws Exception {
 		HashMap<String, String> valores = new HashMap<String, String>();
-		valores.put(id, password);
+		valores.put("id", id);
+		valores.put("password", password);
 
 		HttpURLConnection conexion = getReadyConnection(AUTH_METHOD_NAME);
 		enviarMensaje(conexion, valores);
