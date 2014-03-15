@@ -26,6 +26,10 @@ public class Principal extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		new Mensajero().autenticar("rolon", "1234");
+		try {
+			new Mensajero().autenticar("rolon", "1234");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
