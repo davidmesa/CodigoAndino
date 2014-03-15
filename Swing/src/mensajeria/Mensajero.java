@@ -1,12 +1,14 @@
 package mensajeria;
 
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Scanner;
 
 public class Mensajero {
 
-	private static final String BASE_URL = "http://localhost:8080/cliente/movil";
+	private static final String BASE_URL = "http://localhost:8080/TeleConsulta-war/cliente/movil";
 
 	private static final String IMC_METHOD_NAME = "/imc";
 
@@ -14,8 +16,12 @@ public class Mensajero {
 
 	private static final String AUTH_METHOD_NAME = "/auth";
 
-	public void enviarIMC() {
-
+	public String enviarTension() {
+		return null;
+	}
+	
+	public String enviarIMC() {
+		return null;
 	}
 
 	public String autenticar(String id, String password) {
@@ -30,8 +36,13 @@ public class Mensajero {
 					conexion.getOutputStream());
 			writer.write("id=" + id + "&password=" + password);
 			writer.close();
-			
-			System.out.println(conexion.getInputStream().read());
+
+			InputStream in = conexion.getInputStream();
+			Scanner scanner = new Scanner(in,"UTF-8").useDelimiter("\\A");
+	        String res = scanner.hasNext() ? scanner.next() : "";
+	        System.out.println(res);
+	        in.close();
+	        scanner.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

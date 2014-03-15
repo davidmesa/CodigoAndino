@@ -62,4 +62,11 @@ public class TeleconsultaResource {
         return "";
     }
 
+    @POST
+    @Path("auth")
+    @Produces("application/json")
+    @Consumes("application/x-www-form-urlencoded")
+    public String auth(@FormParam("id") String id, @FormParam("password") String password) {
+        return "{\"mensaje\":\"hola mundo\", \"token\":\""+id+"\"}";
+    }
 }
