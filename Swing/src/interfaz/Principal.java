@@ -24,12 +24,4 @@ public class Principal extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 	}
-	
-	public static void main(String[] args) {
-		try {
-			new Mensajero().autenticar("rolon", "1234");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }

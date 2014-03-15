@@ -39,11 +39,12 @@ public class Mensajero {
 			JSONObject response = (JSONObject) JSONValue.parse(darJSON(conexion
 					.getInputStream()));
 			conexion.disconnect();
-			
-			if(((String) response.get("status")).equals("error")) {
+
+			if (((String) response.get("status")).equals("error")) {
 				throw new Exception();
-			} else if(((String) response.get("status")).equals("alert")) {
-				return ((String) response.get("mensaje")).replaceAll("(\\\\|\\{|\\})", "");
+			} else if (((String) response.get("status")).equals("alert")) {
+				return ((String) response.get("mensaje")).replaceAll(
+						"(\\\\|\\{|\\})", "");
 			}
 			return "ok";
 		}
@@ -64,13 +65,14 @@ public class Mensajero {
 			JSONObject response = (JSONObject) JSONValue.parse(darJSON(conexion
 					.getInputStream()));
 			conexion.disconnect();
-			
-			if(((String) response.get("status")).equals("error")) {
+
+			if (((String) response.get("status")).equals("error")) {
 				throw new Exception();
-			} else if(((String) response.get("status")).equals("alert")) {
-				ArrayList<String> consejo = (ArrayList<String>) response.get("consejo");
+			} else if (((String) response.get("status")).equals("alert")) {
+				ArrayList<String> consejo = (ArrayList<String>) response
+						.get("consejo");
 				String res = "";
-				for(String s : consejo) {
+				for (String s : consejo) {
 					res += s + "\n";
 				}
 				return res;
@@ -79,7 +81,7 @@ public class Mensajero {
 		}
 	}
 
-	public void autenticar(String id, String password) throws Exception {
+	public boolean autenticar(String id, String password) throws Exception {
 		HashMap<String, String> valores = new HashMap<String, String>();
 		valores.put(id, password);
 
@@ -89,10 +91,13 @@ public class Mensajero {
 				.getInputStream()));
 		conexion.disconnect();
 
-		if (response.get("token") == null) {
-			throw new Exception();
+		if (response.get("token").equals("null")) {
+			throw new Exception(
+					"No se encontró su cuenta en el servidor remoto.\n "
+							+ "Por favor regístrese en las instalaciones de la FSFB.");
 		} else {
 			token = (String) response.get("token");
+			return true;
 		}
 	}
 
