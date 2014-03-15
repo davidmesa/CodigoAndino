@@ -47,7 +47,9 @@ El objetivo de este experimento es determinar la escalabilidad del sistema. Para
 ### Protocolo sobre REST
 
 La aplicación móvil puede acceder a los métodos de autenticación, envío de información de tensión y envío de IMC a través de la siguiente URL:
-```/cliente/movil/<nombre_del_metodo>```
+
+/cliente/movil/<nombre_del_metodo>
+
 La respuesta del servidor es siempre un objeto JSON.
 
 #### Envío de info de autenticación
@@ -61,7 +63,9 @@ La respuesta del servidor es siempre un objeto JSON.
 **Respuesta**
 
 ```JSON
-	{"token" : "token"}
+	{
+	"token" : "token"
+	}
 ```
 
 #### Envío de info de IMC
@@ -76,13 +80,16 @@ La respuesta del servidor es siempre un objeto JSON.
 **Respuesta**
 
 ```JSON
-	{"status" : "ok"}
+	{
+	"status" : "ok"
+	}
 ```
 
 ó
 
 ```JSON
-	{"status" : "alert",
+	{
+	"status" : "alert",
 	 "consejo" : [<linea_1>, <linea_2>, ...]
 	}
 ```
@@ -90,7 +97,8 @@ La respuesta del servidor es siempre un objeto JSON.
 ó
 
 ```JSON
-	{"status" : "error",
+	{
+	"status" : "error",
 	 "mensaje" : "<mensaje>"
 	}
 ```
@@ -108,13 +116,16 @@ La respuesta del servidor es siempre un objeto JSON.
 **Respuesta**
 
 ```JSON
-	{"status" : "ok"}
+	{
+	"status" : "ok"
+	}
 ```
 
 ó
 
 ```JSON
-	{"status" : "alert",
+	{
+	"status" : "alert",
 	 "alerta" : "<alerta>"
 	}
 ```
@@ -122,7 +133,8 @@ La respuesta del servidor es siempre un objeto JSON.
 ó
 
 ```JSON
-	{"status" : "error",
+	{
+	"status" : "error",
 	 "mensaje" : "<mensaje>"
 	}
 ```
