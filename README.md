@@ -101,7 +101,7 @@ La respuesta del servidor es siempre un objeto JSON.
 ```JSON
 	{
 		"status" : "error",
-		 "mensaje" : "mensaje"
+		"mensaje" : "mensaje"
 	}
 ```
 
