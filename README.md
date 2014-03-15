@@ -1,6 +1,9 @@
 CodigoAndino
 ============
 
+Este repositorio contiene el documento de diseño de aplicación (SAD), código para el servidor Java EE que corre sobre Glassfish y el simulador de 
+aplicación móvil, escrito en Java usando Swing.
+
 ## Tag System
 Las versiones vX.5 son entregas del SAD, donde X es la entrega menos 1. Ej: v0.5 es el SAD de la entrega 1.
 
@@ -40,6 +43,89 @@ El objetivo de este experimento es determinar la escalabilidad del sistema. Para
 
 * Servidor central en JEE
 * Dispositivos móviles pueden ser simulados con aplicaciones Java standalone.
+
+### Protocolo sobre REST
+
+La aplicación móvil puede acceder a los métodos de autenticación, envío de información de tensión y envío de IMC a través de la siguiente URL:
+```/cliente/movil/<nombre_del_metodo>```
+La respuesta del servidor es siempre un objeto JSON.
+
+#### Envío de info de autenticación
+
+**Nombre del método:** auth
+**Parámetros**
+
+* id de Usuario : String
+* password de Usuario : String
+
+**Respuesta**
+
+```JSON
+	{"token" : "token"}
+```
+
+#### Envío de info de IMC
+
+**Nombre del método:** imc
+**Parámetros**
+
+* token de Autenticación : String
+* peso del Paciente : double : 0 < peso <= 1000
+* (Opcional) altura del Paciente : int : altura = -1 ó 0 < altura <= 300
+
+**Respuesta**
+
+```JSON
+	{"status" : "ok"}
+```
+
+ó
+
+```JSON
+	{"status" : "alert",
+	 "consejo" : [<linea_1>, <linea_2>, ...]
+	}
+```
+
+ó
+
+```JSON
+	{"status" : "error",
+	 "mensaje" : "<mensaje>"
+	}
+```
+
+#### Envío de info de Tensión Arterial
+
+**Nombre del método:** tension
+**Parámetros**
+
+* token : String
+* diastole : int : 0 < diastole < 200
+* sistole : int : 0 < sistole < 200
+* pulso : int : 0 < pulso < 350
+
+**Respuesta**
+
+```JSON
+	{"status" : "ok"}
+```
+
+ó
+
+```JSON
+	{"status" : "alert",
+	 "alerta" : "<alerta>"
+	}
+```
+
+ó
+
+```JSON
+	{"status" : "error",
+	 "mensaje" : "<mensaje>"
+	}
+```
 
 ### Snippet útiles
 
