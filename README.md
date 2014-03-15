@@ -65,7 +65,7 @@ La respuesta del servidor es siempre un objeto JSON.
 
 ```JSON
 	{
-		token : "token"
+		"token" : "token"
 	}
 ```
 
@@ -83,7 +83,7 @@ La respuesta del servidor es siempre un objeto JSON.
 
 ```JSON
 	{
-		status : "ok"
+		"status" : "ok"
 	}
 ```
 
@@ -91,8 +91,8 @@ La respuesta del servidor es siempre un objeto JSON.
 
 ```JSON
 	{
-		status : "alert",
-	 	consejo : [linea_1, linea_2, ...]
+		"status" : "alert",
+		"consejo" : [linea_1, linea_2, ...]
 	}
 ```
 
@@ -100,8 +100,8 @@ La respuesta del servidor es siempre un objeto JSON.
 
 ```JSON
 	{
-		status : "error",
-	 	mensaje : "mensaje"
+		"status" : "error",
+		 "mensaje" : "mensaje"
 	}
 ```
 
@@ -120,7 +120,7 @@ La respuesta del servidor es siempre un objeto JSON.
 
 ```JSON
 	{
-		status : "ok"
+		"status" : "ok"
 	}
 ```
 
@@ -128,8 +128,8 @@ La respuesta del servidor es siempre un objeto JSON.
 
 ```JSON
 	{
-		status : "alert",
-	 	alerta : "alerta"
+		"status" : "alert",
+	 	"alerta" : "alerta"
 	}
 ```
 
@@ -137,8 +137,8 @@ La respuesta del servidor es siempre un objeto JSON.
 
 ```JSON
 	{
-		status : "error",
-	 	mensaje : "mensaje"
+		"status" : "error",
+	 	"mensaje" : "mensaje"
 	}
 ```
 
