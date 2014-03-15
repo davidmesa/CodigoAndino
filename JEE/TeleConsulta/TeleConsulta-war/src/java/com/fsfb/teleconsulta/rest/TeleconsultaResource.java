@@ -4,6 +4,12 @@
  */
 package com.fsfb.teleconsulta.rest;
 
+import com.fsfb.bos.Paciente;
+import com.fsfb.servicios.ServicioLogin;
+import com.fsfb.servicios.ServicioLoginLocal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.security.auth.message.AuthException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -26,11 +32,14 @@ public class TeleconsultaResource {
 
     @Context
     private UriInfo context;
+    
+    private ServicioLoginLocal servicio;
 
     /**
      * Creates a new instance of TeleconsultaResource
      */
     public TeleconsultaResource() {
+        servicio = new ServicioLogin();
     }
 
     
@@ -49,7 +58,12 @@ public class TeleconsultaResource {
     @Consumes("application/x-www-form-urlencoded")
     public String registrarTension(@FormParam("token") String token, @FormParam("id") String id, 
     @FormParam("diastole") double diastole, @FormParam("sistole") double sistole, @FormParam("pulso") double pulso) {
-        return "{\"mensaje\":\"hola mundo\", \"token\":\""+token+"\"}";
+        try {
+            Paciente paciente = servicio.loginPaciente(token);
+            return "{\"mensaje\":\"hola mundo\", \"token\":\""+token+"\"}";
+        } catch (AuthException ex) {
+            return "{\"mensaje\":\"error\", \"mensaje\":\""+ex.getMessage()+"\"}";
+        }
     }
     
     @POST
