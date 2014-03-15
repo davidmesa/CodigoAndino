@@ -48,13 +48,14 @@ El objetivo de este experimento es determinar la escalabilidad del sistema. Para
 
 La aplicación móvil puede acceder a los métodos de autenticación, envío de información de tensión y envío de IMC a través de la siguiente URL:
 
-/cliente/movil/<nombre_del_metodo>
+`/cliente/movil/nombre_del_metodo`
 
 La respuesta del servidor es siempre un objeto JSON.
 
 #### Envío de info de autenticación
 
 **Nombre del método:** auth
+
 **Parámetros**
 
 * id de Usuario : String
@@ -71,6 +72,7 @@ La respuesta del servidor es siempre un objeto JSON.
 #### Envío de info de IMC
 
 **Nombre del método:** imc
+
 **Parámetros**
 
 * token de Autenticación : String
@@ -90,7 +92,7 @@ La respuesta del servidor es siempre un objeto JSON.
 ```JSON
 	{
 	"status" : "alert",
-	 "consejo" : [<linea_1>, <linea_2>, ...]
+	 "consejo" : [linea_1, linea_2, ...]
 	}
 ```
 
@@ -99,13 +101,14 @@ La respuesta del servidor es siempre un objeto JSON.
 ```JSON
 	{
 	"status" : "error",
-	 "mensaje" : "<mensaje>"
+	 "mensaje" : "mensaje"
 	}
 ```
 
 #### Envío de info de Tensión Arterial
 
 **Nombre del método:** tension
+
 **Parámetros**
 
 * token : String
@@ -126,7 +129,7 @@ La respuesta del servidor es siempre un objeto JSON.
 ```JSON
 	{
 	"status" : "alert",
-	 "alerta" : "<alerta>"
+	 "alerta" : "alerta"
 	}
 ```
 
@@ -135,7 +138,7 @@ La respuesta del servidor es siempre un objeto JSON.
 ```JSON
 	{
 	"status" : "error",
-	 "mensaje" : "<mensaje>"
+	 "mensaje" : "mensaje"
 	}
 ```
 
