@@ -41,12 +41,12 @@ public class Paciente {
     /**
      * Registro de IMC's
      */
-    private ArrayList<ReporteIMC> reportesIMC = new ArrayList<ReporteIMC>();
+    private ArrayList<ReporteIMC> reportesIMC;
     
     /**
      * Registros de Presión Arterial
      */
-    private ArrayList<ReportePresionArterial> reportesPresionArterial = new ArrayList<ReportePresionArterial>();
+    private ArrayList<ReportePresionArterial> reportesPresionArterial;
     
     //--------------------------------------------------------------------------
     //  Constructor
@@ -62,6 +62,9 @@ public class Paciente {
         this.contrasena = contrasena;
         this.estatura = estatura;
         this.fecha_nacimiento = fecha_nacimiento;
+        
+        reportesIMC = new ArrayList<ReporteIMC>();
+        reportesPresionArterial = new ArrayList<ReportePresionArterial>();
     }
     
     //--------------------------------------------------------------------------
