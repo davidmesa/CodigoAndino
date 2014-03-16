@@ -44,6 +44,13 @@ El objetivo de este experimento es determinar la escalabilidad del sistema. Para
 * Servidor central en JEE
 * Dispositivos móviles pueden ser simulados con aplicaciones Java standalone.
 
+## Cómo usar la app Swing
+
+Al iniciar la aplicación se recibe al susuario con una ventana en donde se puede escribir un nombre de usuario y una contraseña. Para poder acceder,
+el servidor Glassfish 3.2.1 debe estar corriendo en el puerto 8080 en localhost.
+
+Es posible ingresar, por el momento, con las credenciales `rolon` y contraseña `1234`.
+
 ### Protocolo sobre REST
 
 La aplicación móvil puede acceder a los métodos de autenticación, envío de información de tensión y envío de IMC a través de la siguiente URL:
