@@ -13,6 +13,10 @@ import java.util.Date;
  */
 public class Paciente {
     
+    //--------------------------------------------------------------------------
+    //  Atributos
+    //--------------------------------------------------------------------------
+
     /**
      * Nombre de usuario del paciente
      */
@@ -27,7 +31,7 @@ public class Paciente {
     /**
      * Estatura del paciente, en centimetros.
      */
-    private int estatura;
+    private double estatura;
     
     /**
      * Fecha en la que nacio el paciente
@@ -44,6 +48,10 @@ public class Paciente {
      */
     private ArrayList<ReportePresionArterial> reportesPresionArterial;
     
+    //--------------------------------------------------------------------------
+    //  Constructor
+    //--------------------------------------------------------------------------
+
     /**
      * Constructor de la clase Paciente
      * @param usuario Nombre de usuario del paciente.
@@ -55,7 +63,62 @@ public class Paciente {
         this.estatura = estatura;
         this.fecha_nacimiento = fecha_nacimiento;
     }
+    
+    //--------------------------------------------------------------------------
+    //  Métodos
+    //--------------------------------------------------------------------------
 
+    /**
+     * Método que hace un registor de IMC al Paciente
+     * @param peso, del Paciente al momento de hacer la medida
+     * @param altura, puede ser -1, que indica que no se tomo, o !=-1 que indica una actualización
+     * @return Reporte de IMC generado
+     */
+    public ReporteIMC registarIMC(double peso, double altura)
+    {
+        Date tiempo=new Date();
+        ReporteIMC reporte=new ReporteIMC(this, peso, altura, tiempo);
+        reportesIMC.add(reporte);
+        return reporte;
+    }
+    
+    /**
+     * Método que hace un registro de Presión Arterial al Paciente
+     * @param diastole, dato de presión arterial
+     * @param siastole, dato de presión arterial
+     * @param pulsaciones, dato de presión arterial
+     * @return Reporte generado para el paciente
+     */
+    public ReportePresionArterial registarPresionArterial(int diastole, int siastole, int pulsaciones)
+    {
+        Date tiempo=new Date();
+        ReportePresionArterial reporte=new ReportePresionArterial(this, diastole, siastole, pulsaciones, tiempo);
+        reportesPresionArterial.add(reporte);
+        return reporte;
+    }
+    
+    /**
+     * Retorna la Lista de Reportes de Presión Arterial
+     * @return ArrayList, de objeto tipo ReportePresionArterial
+     */
+    public ArrayList<ReportePresionArterial> darReportesPresionArterial()
+    {
+        return reportesPresionArterial;
+    }
+    
+    /**
+     * Retorna la lista de Reportes IMC del Paciente
+     * @return ArrayList, de objeto tipo ReporteIMC
+     */
+    public ArrayList<ReporteIMC> darReportesIMC()
+    {
+        return reportesIMC;
+    }
+
+    //--------------------------------------------------------------------------
+    //  Getters and Setters
+    //--------------------------------------------------------------------------
+    
     /**
      * Get the value of usuario
      * @return the value of usuario
@@ -91,7 +154,7 @@ public class Paciente {
     /**
      *Método que devuelve la estatura del médico
      */
-    public int getEstatura()
+    public double getEstatura()
     {
         return estatura;
     }
@@ -100,7 +163,7 @@ public class Paciente {
      * Cambia la estatura por una nueva
      * @param estatura nuevo valor para estatura
      */
-    public void setEstatura(int estatura)
+    public void setEstatura(double estatura)
     {
         this.estatura = estatura;
     }
