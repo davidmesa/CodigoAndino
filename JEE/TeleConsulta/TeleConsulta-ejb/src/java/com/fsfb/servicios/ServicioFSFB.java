@@ -57,7 +57,7 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         {
             pacientes.put("Paciente"+(i+1), new Paciente("Paciente"+(i+1),"Paciente"+(i+1),i+100,new Date()));
         }
-        pacientes.put("cristiansierra", new Paciente("cristiansierra", "algo",160,new Date("01/01/1994")));
+        pacientes.put("cristiansierra", new Paciente("cristiansierra", "algo",160,new Date("22/11/1995")));
     }
     
     /**
@@ -140,4 +140,17 @@ public class ServicioFSFB implements ServicioFSFBLocal {
             throw new AuthException();
         }
     }
+
+    @Override
+    public String registarIMC(Paciente paciente, double peso, double altura) {
+        return null;
+    }
+
+    @Override
+    public String registarPresionArterial(Paciente paciente) {
+        return null;
+    }
+
+    
+    
 }

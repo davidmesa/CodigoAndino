@@ -42,4 +42,8 @@ public interface ServicioFSFBLocal {
      * @exception AuthException en caso de que el paciente no exista.
      */
     public String darTokenDelPaciente(String usuario, String contrasena) throws AuthException;
+
+    String registarIMC(Paciente paciente, double peso, double altura);
+
+    String registarPresionArterial(Paciente paciente);
 }

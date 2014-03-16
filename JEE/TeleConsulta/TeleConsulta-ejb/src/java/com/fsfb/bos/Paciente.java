@@ -4,6 +4,7 @@
  */
 package com.fsfb.bos;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -33,6 +34,16 @@ public class Paciente {
      */
     private Date fecha_nacimiento;
 
+    /**
+     * Registro de IMC's
+     */
+    private ArrayList<ReporteIMC> reportesIMC;
+    
+    /**
+     * Registros de Presión Arterial
+     */
+    private ArrayList<ReportePresionArterial> reportesPresionArterial;
+    
     /**
      * Constructor de la clase Paciente
      * @param usuario Nombre de usuario del paciente.
