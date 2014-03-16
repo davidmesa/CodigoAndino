@@ -8,7 +8,9 @@ package com.fsfb.servicios;
 
 import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
+import com.fsfb.bos.ReporteIMC;
 import com.fsfb.bos.ReportePresionArterial;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import javax.ejb.Singleton;
@@ -24,7 +26,7 @@ public class ServicioFSFB implements ServicioFSFBLocal {
     /**
      * Constante para la creación simulada de pacientes
      */
-    public final static int NUMERO_PACIENTES=10;
+    public final static int NUMERO_PACIENTES=20;
     
     /**
      * Constante para la creación simulada de medicos
@@ -42,23 +44,50 @@ public class ServicioFSFB implements ServicioFSFBLocal {
     private HashMap<String, Paciente> pacientes;
     
     /**
+     * Arreglo que indica las personas que tienen emergencia
+     */
+    private ArrayList<Paciente> alertados;
+    
+    /**
+     * Arreglo de cantidad de datos por Semana
+     */
+    private Integer[] registrosSemanales;
+    
+    /**
      * Constructor
      */
     public ServicioFSFB()
     {
+        alertados=new ArrayList<Paciente>();
+        
+        registrosSemanales=new Integer[7];
+        for(int i=0; i<7; i++)
+        {
+            registrosSemanales[i]=0;
+        }
+        
         medicos = new HashMap<String, Medico>();
         for(int i=0; i<NUMERO_MEDICOS; i++)
         {
             medicos.put("Medico"+(i+1), new Medico("Medico"+(i+1),"Medico"+(i+1)));
         }
-        medicos.put("davidmesa", new Medico("davidmesa", "algo"));
+        Medico david=new Medico("davidmesa", "algo");
+        medicos.put(david.getUsuario(), david);
         
         pacientes = new HashMap<String, Paciente>();
         for(int i=0; i<NUMERO_PACIENTES; i++)
         {
-            pacientes.put("Paciente"+(i+1), new Paciente("Paciente"+(i+1),"Paciente"+(i+1),i+100,new Date()));
+            Date fn=new Date(1910+(int) Math.random()*100,(int)Math.random()*12, (int) Math.random()*28);
+            Paciente nuevo=new Paciente("Paciente"+(i+1),"Paciente"+(i+1),(i*4)+100, fn);
+            pacientes.put(nuevo.getUsuario(), nuevo);
+            if(i%2==0 && i<NUMERO_PACIENTES/3)
+            {
+                david.agregarPaciente(nuevo);
+            }
         }
-        pacientes.put("cristiansierra", new Paciente("cristiansierra", "algo",160,new Date("22/11/1995")));
+        Paciente cristian=new Paciente("cristiansierra", "algo",160,new Date("22/11/1995"));
+        pacientes.put(cristian.getUsuario(), cristian);
+        david.agregarPaciente(null);
     }
     
     /**
@@ -148,8 +177,13 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         {
             paciente.setEstatura(altura);
         }
-        //ReporteIMC retornado=paciente.registarIMC(peso, altura);
-        double imc=paciente.registarIMC(peso, altura).getIMC();
+        ReporteIMC retornado=paciente.registarIMC(peso, altura);
+        
+        Date fechaReporte=retornado.getFechaReporte();
+        int numeroDia=fechaReporte.getDay();
+        registrosSemanales[numeroDia]=registrosSemanales[numeroDia]+1;
+        
+        double imc=retornado.getIMC();
         int edad=paciente.calcularEdad();
         String cadena=null;
         String status="";
@@ -282,7 +316,12 @@ public class ServicioFSFB implements ServicioFSFBLocal {
                         + "\n8. Antes de acostarte, tómate una bebida relajante";
             } else {
                 status = "ok";
+                cadena = "Presenta un aceptado IMC";
             }
+        }
+        if(status.equals("alert"))
+        {
+            alertados.add(paciente);
         }
         String cadena2 = "{\"status\":\"" + status + "\", \"mensaje\":\"" + cadena + "\"}";
         return cadena2;
@@ -292,6 +331,10 @@ public class ServicioFSFB implements ServicioFSFBLocal {
     public String registrarPresionArterial(Paciente paciente, int diastole, int siastole, int pulsaciones) {
         ReportePresionArterial reporte=paciente.registarPresionArterial(diastole, siastole, pulsaciones);
         int edad=paciente.calcularEdad();
+        
+        Date fechaReporte=reporte.getFechaReporte();
+        int numeroDia=fechaReporte.getDay();
+        registrosSemanales[numeroDia]=registrosSemanales[numeroDia]+1;
         
         //  CONDICIONES DE ALERTA
         String cadena=null;
@@ -333,6 +376,8 @@ public class ServicioFSFB implements ServicioFSFBLocal {
                 // TODO
                 //  Puede que tenga Normal Alta o Normal o Óptima
                 //  No afecta la salud del usuario
+                status = "ok";
+                cadena = "Presenta un aceptada Presión Arterial";
             }
         }
         else
@@ -340,7 +385,21 @@ public class ServicioFSFB implements ServicioFSFBLocal {
             // TODO
             //  No se revisa el caso de un niño...
         }
+        if(status.equals("alert"))
+        {
+            alertados.add(paciente);
+        }
         String cadena2 = "{\"status\":\"" + status + "\", \"mensaje\":\"" + cadena + "\"}";
         return cadena2;
+    }
+
+    @Override
+    public ArrayList<Paciente> darPacientesConEmergencia() {
+        return alertados;
+    }
+
+    @Override
+    public Integer[] darRegistrosSemanales() {
+        return registrosSemanales;
     }
 }

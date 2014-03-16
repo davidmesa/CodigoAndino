@@ -45,4 +45,14 @@ public class ServicioDashBoard implements ServicioDashBoardLocal {
     public ArrayList<Paciente> darPacientes() {
         return actual.darpacientes();
     }
+    
+    @Override
+    public ArrayList<Paciente> darPacientesConEmergencia() {
+        return fsfb.darPacientesConEmergencia();
+    }
+
+    @Override
+    public Integer[] darRegistrosSemanales() {
+        return fsfb.darRegistrosSemanales();
+    }
 }
