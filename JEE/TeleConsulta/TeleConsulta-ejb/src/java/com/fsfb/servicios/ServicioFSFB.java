@@ -8,7 +8,6 @@ package com.fsfb.servicios;
 
 import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
-import com.fsfb.bos.ReporteIMC;
 import com.fsfb.bos.ReportePresionArterial;
 import java.util.Date;
 import java.util.HashMap;
@@ -103,16 +102,16 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         Paciente buscado=pacientes.get(paramUsuario);
         if(buscado!=null)
         {
-            if(buscado.getContrasena().equals(paramContrasena))
+            if(!buscado.getContrasena().equals(paramContrasena))
             {
-                return buscado;
+                throw new AuthException("La contraseña no es correcta.");
             }
         }
         else
         {
             throw new AuthException("No se ha encontrado la cuenta.");
         }
-        return null;
+        return buscado;
     }
     
     /**
@@ -130,7 +129,7 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         {
             if(!buscado.getContrasena().equals(contrasena))
             {
-                throw new AuthException();
+                throw new AuthException("La contraseña no es correcta.");
             }
             else
             {
