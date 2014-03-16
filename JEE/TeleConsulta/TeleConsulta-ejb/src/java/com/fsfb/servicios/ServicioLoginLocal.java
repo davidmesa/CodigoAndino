@@ -41,5 +41,4 @@ public interface ServicioLoginLocal {
      * @exception AuthException en caso de que el paciente no exista.
      */
     String getTokenPaciente(String usuario, String contrasena) throws AuthException;
-    
 }

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:ice="http://www.icesoft.com/icefaces/component"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <!-- Bootstrap core CSS -->
+        <ice:outputStyle href="./resources/css/bootstrap.css" id="bootstrap"/>
+        <!-- Add custom CSS here -->
+        <ice:outputStyle href="./resources/css/sb-admin.css" id="sb-admin"/>
+        <ice:outputStyle href="./resources/font-awesome/css/font-awesome.min.css" id="font-awesome"/>
+        
+        
+        <title>
+            FSFB Teleconsulta - #{titulo}
+        </title>
+        <link rel="shortcut icon" href="resources/img/icon.png" type="image/x-icon" />
+    </h:head>
+    <h:body>
+        <ui:insert name="body" />
+        <!-- JavaScript -->
+        <h:outputScript library="js" name="./resources/js/jquery-1.10.2.js"/>
+        <h:outputScript library="js" name="./resources/js/bootstrap.js"/>
+    </h:body>
+</html>

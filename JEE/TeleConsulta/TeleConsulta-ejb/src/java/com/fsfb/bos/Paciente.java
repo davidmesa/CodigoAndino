@@ -22,6 +22,7 @@ public class Paciente {
      */
     private String contrasena;
     
+
     /**
      * Estatura del paciente, en centimetros.
      */
