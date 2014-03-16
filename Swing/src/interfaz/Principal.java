@@ -139,9 +139,14 @@ public class Principal extends JFrame {
 		btnEnviarImc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					mensajero.enviarIMC(
+					int altura = -1;
+					if(!alturaField.getText().equals("")) {
+						altura = Integer.parseInt(alturaField.getText());
+					}
+					String res = mensajero.enviarIMC(
 							Double.parseDouble(pesoField.getText()),
-							Integer.parseInt(alturaField.getText()));
+							altura);
+					JOptionPane.showMessageDialog(null, res);
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
@@ -153,10 +158,11 @@ public class Principal extends JFrame {
 		btnEnviarTensin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					mensajero.enviarTension(
+					String res = mensajero.enviarTension(
 							Integer.parseInt(diastoleField.getText()),
 							Integer.parseInt(sistoleField.getText()),
 							Integer.parseInt(pulsoField.getText()));
+					JOptionPane.showMessageDialog(null, res);
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
@@ -167,6 +173,6 @@ public class Principal extends JFrame {
 
 	public void avisar() {
 		JOptionPane.showMessageDialog(null,
-				"Atención: Debe tomarse las medidas.");
+				"Atenciï¿½n: Debe tomarse las medidas.");
 	}
 }

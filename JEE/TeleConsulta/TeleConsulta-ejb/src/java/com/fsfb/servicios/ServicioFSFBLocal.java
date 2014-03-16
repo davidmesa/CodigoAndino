@@ -50,7 +50,7 @@ public interface ServicioFSFBLocal {
      * @param altura, altura del paciente por si ha cambiado desde la última vez.
      * @return String, NULL si todo esta bien, NO NULL, con el mensaje de alerta
      */
-    String registarIMC(Paciente paciente, double peso, double altura);
+    String registarIMC(Paciente paciente, double peso, int altura);
 
     /**
      * Crea un registro de Presión Arterial para el paciente indicado por parámestro

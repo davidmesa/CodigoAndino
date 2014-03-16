@@ -54,8 +54,7 @@ public class Mensajero {
 			if (((String) response.get("status")).equals("error")) {
 				throw new Exception();
 			} else if (((String) response.get("status")).equals("alert")) {
-				return ((String) response.get("mensaje")).replaceAll(
-						"(\\\\|\\{|\\})", "");
+				return ((String) response.get("mensaje"));
 			}
 			return "ok";
 		}
@@ -80,13 +79,7 @@ public class Mensajero {
 			if (((String) response.get("status")).equals("error")) {
 				throw new Exception();
 			} else if (((String) response.get("status")).equals("alert")) {
-				ArrayList<String> consejo = (ArrayList<String>) response
-						.get("consejo");
-				String res = "";
-				for (String s : consejo) {
-					res += s + "\n";
-				}
-				return res;
+				return (String) response.get("mensaje");
 			}
 			return "ok";
 		}
@@ -103,14 +96,15 @@ public class Mensajero {
 				.getInputStream()));
 		conexion.disconnect();
 
-		if (response.get("token").equals("null")) {
-			throw new Exception(
-					"No se encontró su cuenta en el servidor remoto.\n "
-							+ "Por favor regístrese en las instalaciones de la FSFB.");
+		if (response.containsKey("status")) {
+			if(response.get("status").equals("error")) {
+				throw new Exception((String) response.get("mensaje"));				
+			}
 		} else {
 			token = (String) response.get("token");
 			return true;
 		}
+		return false;
 	}
 
 	private void enviarMensaje(HttpURLConnection conexion,

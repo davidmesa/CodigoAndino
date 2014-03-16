@@ -5,22 +5,14 @@
 package com.fsfb.teleconsulta.rest;
 
 import com.fsfb.bos.Paciente;
-import com.fsfb.servicios.ServicioLogin;
-import com.fsfb.servicios.ServicioLoginLocal;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.security.auth.message.AuthException;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.PathParam;
+import com.fsfb.servicios.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 /**
  * REST Web Service
@@ -34,14 +26,16 @@ public class TeleconsultaResource {
     private UriInfo context;
     
     private ServicioLoginLocal servicio;
+    
+    private ServicioFSFBLocal serFSFB;
 
     /**
      * Creates a new instance of TeleconsultaResource
      */
     public TeleconsultaResource() {
         servicio = new ServicioLogin();
+        serFSFB = new ServicioFSFB(); // Tal vez deberia ser singleton
     }
-
     
     /**
      * 
@@ -57,12 +51,12 @@ public class TeleconsultaResource {
     @Produces("application/json")
     @Consumes("application/x-www-form-urlencoded")
     public String registrarTension(@FormParam("token") String token, @FormParam("id") String id, 
-    @FormParam("diastole") double diastole, @FormParam("sistole") double sistole, @FormParam("pulso") double pulso) {
+    @FormParam("diastole") int diastole, @FormParam("sistole") int sistole, @FormParam("pulso") int pulso) {
         try {
             Paciente paciente = servicio.loginPaciente(token);
-            return "{\"mensaje\":\"hola mundo\", \"token\":\""+token+"\"}";
-        } catch (AuthException ex) {
-            return "{\"mensaje\":\"error\", \"mensaje\":\""+ex.getMessage()+"\"}";
+            return serFSFB.registrarPresionArterial(paciente, diastole, sistole, pulso);
+        } catch (Exception ex) {
+            return "{\"status\":\"error\", \"mensaje\":\""+ex.getMessage()+"\"}";
         }
     }
     
@@ -70,10 +64,15 @@ public class TeleconsultaResource {
     @Path("imc")
     @Produces("application/json")
     @Consumes("application/x-www-form-urlencoded")
-    public  String registrarIMC(@FormParam("token") String token, @FormParam("id") String id,
-    @FormParam("peso") double peso)
+    public  String registrarIMC(@FormParam("token") String token,
+    @FormParam("peso") double peso, @FormParam("altura") int altura)
     {
-        return "";
+        try {
+            Paciente paciente = servicio.loginPaciente(token);
+            return serFSFB.registarIMC(paciente, peso, altura);
+        } catch (Exception e) {
+            return "{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}";
+        }
     }
 
     @POST
@@ -81,10 +80,11 @@ public class TeleconsultaResource {
     @Produces("application/json")
     @Consumes("application/x-www-form-urlencoded")
     public String auth(@FormParam("id") String id, @FormParam("password") String password) {
-        String token = "";
-        if(id.equals("rolon") && password.equals("1234")) {
-            token = "welcome";
+        try {
+            String token = serFSFB.darTokenDelPaciente(id, password);
+            return "{\"token\":\""+token+"\"}";
+        } catch(Exception e) {
+            return "{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}";
         }
-        return "{\"token\":\""+token+"\"}";
     }
 }

@@ -62,6 +62,9 @@ public class Paciente {
         this.contrasena = contrasena;
         this.estatura = estatura;
         this.fecha_nacimiento = fecha_nacimiento;
+        
+        reportesIMC = new ArrayList<ReporteIMC>();
+        reportesPresionArterial = new ArrayList<ReportePresionArterial>();
     }
     
     //--------------------------------------------------------------------------
