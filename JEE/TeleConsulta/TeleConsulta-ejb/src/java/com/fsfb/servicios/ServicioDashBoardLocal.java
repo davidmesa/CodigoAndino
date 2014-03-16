@@ -7,6 +7,7 @@
 
 package com.fsfb.servicios;
 
+import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
 import java.util.ArrayList;
 import javax.ejb.Local;
@@ -24,6 +25,7 @@ public interface ServicioDashBoardLocal {
      */
     ArrayList<Paciente> darPacientes();
     
+
     /**
      * Retorna el arreglo de pacientes que han tenido emergencia
      * @return Arreglo de Pacientes
@@ -36,5 +38,7 @@ public interface ServicioDashBoardLocal {
      * @return Arreglo de Enteros
      */
     Integer[] darRegistrosSemanales();
+
+    public void setActual(Medico actual);
 
 }

@@ -5,6 +5,12 @@
 package com.fsfb.teleconsulta.beans;
 
 import com.fsfb.bos.Medico;
+import com.fsfb.bos.Paciente;
+import com.fsfb.servicios.ServicioDashBoard;
+import com.fsfb.servicios.ServicioDashBoardLocal;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -16,14 +22,22 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class DashboardBean {
 
+    private ServicioDashBoardLocal servicio;
     
     private Medico medico;
+    
+    private ArrayList<Paciente> alertas;
+    
+    private ArrayList<Paciente> consejos;
+    
 
     /**
      * Creates a new instance of DashboardBean
      */
     public DashboardBean() {
-        
+        servicio = new ServicioDashBoard();
+        alertas = new ArrayList<Paciente>();
+        consejos = new ArrayList<Paciente>();
     }
     
     /**
@@ -43,5 +57,54 @@ public class DashboardBean {
     public void setMedico(Medico nMedico)
     {
         medico = nMedico;
+        servicio.setActual(medico);
+    }
+    
+    /**
+     * Get the amount of Alertas
+     * 
+     * @return The amount of alertas.
+     */
+    public int getNumeroDeAlertas()
+    {
+        return alertas.size();
+    }
+    
+    /**
+     * Get the amount of Consejos
+     * 
+     * @return The amount of consejos.
+     */
+    public int getNumeroConsejos()
+    {
+        return alertas.size();
+    }
+    
+    /**
+     * Get collection of Reportes Consejos
+     * @return Collection of Reportes Consejos
+     */
+    public Collection<Paciente> getReportesConsejos()
+    {
+        return consejos;
+    }
+    
+    /**
+     * Get collection of Reportes Alertas
+     * @return Collection of reportes Alertas
+     */
+    public Collection<Paciente> getReportesAlerta()
+    {
+        return alertas;
+    }
+    
+    /**
+     * Get data for registros chart
+     * 
+     * @return Data for registros chart
+     */
+    public String getDataRegistrosSemana()
+    {
+        return "50, 40, 10, 100, 90, 80, 70";
     }
 }

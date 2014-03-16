@@ -33,12 +33,7 @@ public class ServicioDashBoard implements ServicioDashBoardLocal {
     private ServicioFSFB fsfb;
     
     public ServicioDashBoard() {
-        fsfb=new ServicioFSFB();
-        try {
-            actual=fsfb.darMedicoPorDatos("davidmesa", "algo");
-        } catch (AuthException ex) {
-            System.out.println(ex.getMessage());
-        }
+        fsfb = new ServicioFSFB();
     }
     
     @Override
@@ -54,5 +49,9 @@ public class ServicioDashBoard implements ServicioDashBoardLocal {
     @Override
     public Integer[] darRegistrosSemanales() {
         return fsfb.darRegistrosSemanales();
+
+    @Override
+    public void setActual(Medico actual) {
+        this.actual = actual;
     }
 }

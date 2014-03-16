@@ -22,8 +22,16 @@
     
     <navigation-rule>
         <navigation-case>
-            <from-outcome>alertas_menu</from-outcome>
+            <from-outcome>principal_menu</from-outcome>
             <to-view-id>/dashboard.jsf</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>alertas_menu</from-outcome>
+            <to-view-id>/alertas.jsf</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>
@@ -39,7 +47,7 @@
     <navigation-rule>
         <navigation-case>
             <from-outcome>consejos_menu</from-outcome>
-            <to-view-id>/dashboard.jsf</to-view-id>
+            <to-view-id>/consejos.jsf</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>
