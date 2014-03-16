@@ -96,23 +96,23 @@ public class ServicioFSFB implements ServicioFSFBLocal {
     @Override
     public Paciente darPacientePorToken(String token) throws AuthException
     {
-        String[] fracciones=token.split("-");
-        String paramUsuario=fracciones[1];
-        String paramContrasena=fracciones[4];
+        String[] fracciones=token.split("--");
+        String paramUsuario=fracciones[0];
+        String paramContrasena=fracciones[1];
         
         Paciente buscado=pacientes.get(paramUsuario);
         if(buscado!=null)
         {
-            if(!buscado.getContrasena().equals(paramContrasena))
+            if(buscado.getContrasena().equals(paramContrasena))
             {
-                buscado=null;
+                return buscado;
             }
         }
         else
         {
-            throw new AuthException();
+            throw new AuthException("No se ha encontrado la cuenta.");
         }
-        return buscado;
+        return null;
     }
     
     /**
@@ -134,7 +134,7 @@ public class ServicioFSFB implements ServicioFSFBLocal {
             }
             else
             {
-                return "-"+usuario+"--"+contrasena+"-";
+                return usuario+"--"+contrasena;
             }
         }
         else

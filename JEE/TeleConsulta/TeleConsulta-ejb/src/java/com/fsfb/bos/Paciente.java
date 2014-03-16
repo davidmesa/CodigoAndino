@@ -41,12 +41,12 @@ public class Paciente {
     /**
      * Registro de IMC's
      */
-    private ArrayList<ReporteIMC> reportesIMC;
+    private ArrayList<ReporteIMC> reportesIMC = new ArrayList<ReporteIMC>();
     
     /**
      * Registros de Presión Arterial
      */
-    private ArrayList<ReportePresionArterial> reportesPresionArterial;
+    private ArrayList<ReportePresionArterial> reportesPresionArterial = new ArrayList<ReportePresionArterial>();
     
     //--------------------------------------------------------------------------
     //  Constructor
