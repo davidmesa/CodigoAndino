@@ -6,6 +6,7 @@ package com.fsfb.servicios;
 
 import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
+import java.util.Date;
 import java.util.HashMap;
 import javax.ejb.Stateless;
 import javax.security.auth.message.AuthException;
@@ -35,7 +36,7 @@ public class ServicioLogin implements ServicioLoginLocal {
         medicos.put("davidmesa", new Medico("davidmesa", "algo"));
         
         pacientes = new HashMap<String, Paciente>();
-        pacientes.put("cristiansierra", new Paciente("cristiansierra", "algo"));
+        pacientes.put("cristiansierra", new Paciente("cristiansierra", "algo", 160, new Date("01/01/1995")));
     }
 
     /**

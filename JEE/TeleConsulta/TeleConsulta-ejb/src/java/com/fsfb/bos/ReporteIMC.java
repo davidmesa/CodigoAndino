@@ -10,4 +10,14 @@ package com.fsfb.bos;
  */
 public class ReporteIMC {
     
+    /**
+     * Atributo que modela el paciente al que pertence el reporte
+     */
+    private Paciente paciente;
+    
+    public ReporteIMC(Paciente paciente)
+    {
+        
+    }
+    
 }

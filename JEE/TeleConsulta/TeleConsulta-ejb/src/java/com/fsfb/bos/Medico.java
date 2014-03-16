@@ -4,6 +4,9 @@
  */
 package com.fsfb.bos;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Clase Medico
  * @author davidmesa
@@ -20,6 +23,8 @@ public class Medico {
      */
     private String contrasena;
     
+    private HashMap<String, Paciente> pacientes;
+    
     /**
      * Metodo constructor de la clase medico
      * @param nUsuario Nombre de usuario del medico.
@@ -28,6 +33,7 @@ public class Medico {
     public Medico( String nUsuario, String nContrasena ) {
         usuario = nUsuario;
         contrasena = nContrasena;
+        pacientes = new HashMap<String, Paciente>();
     }
 
     /**
@@ -60,5 +66,31 @@ public class Medico {
      */
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+    
+    /**
+     * Método que agrega un paciente al hashmap
+     */
+    public void agregarPaciente(Paciente paciente)
+    {
+        pacientes.put(paciente.getUsuario(), paciente);
+    }
+    
+    /**
+     * Método que remueve un paciente de la lista del médico
+     * @param paciente el paciente que se quiere eliminar
+     */
+    public void eliminarPaciente(Paciente paciente)
+    {
+        pacientes.remove(paciente.getUsuario());
+    }
+    
+    /**
+     * Método que retorna le arreglo de pacientes
+     * @return los pacientes en un arreglo
+     */
+    public ArrayList<Paciente> darpacientes()
+    {
+        return (ArrayList)pacientes.values();
     }
 }
