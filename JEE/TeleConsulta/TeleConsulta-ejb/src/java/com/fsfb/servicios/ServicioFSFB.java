@@ -230,6 +230,7 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         }
         else
         {
+            // TODO refinar esto
             if(imc<18.5)
             {
                 status="alert";
@@ -330,12 +331,14 @@ public class ServicioFSFB implements ServicioFSFBLocal {
             }
             else
             {
+                // TODO
                 //  Puede que tenga Normal Alta o Normal o Óptima
                 //  No afecta la salud del usuario
             }
         }
         else
         {
+            // TODO
             //  No se revisa el caso de un niño...
         }
         String cadena2 = "{\"status\":\"" + status + "\", \"mensaje\":\"" + cadena + "\"}";
