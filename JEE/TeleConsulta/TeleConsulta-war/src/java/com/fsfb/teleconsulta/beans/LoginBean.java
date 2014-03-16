@@ -4,10 +4,13 @@
  */
 package com.fsfb.teleconsulta.beans;
 
+import com.fsfb.bos.Medico;
 import com.fsfb.servicios.ServicioLogin;
 import com.fsfb.servicios.ServicioLoginLocal;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.security.auth.message.AuthException;
 
 /**
  *
@@ -25,8 +28,13 @@ public class LoginBean {
     
     private String contrasena;
 
-    private ServicioLoginLocal servicio;
+    private ServicioLoginLocal servicioLogin;
     
+    private String mensaje;
+
+    private boolean mostrarMensaje;
+
+        
     //-----------------------------------------------------------
     // Constructor
     //-----------------------------------------------------------
@@ -35,7 +43,7 @@ public class LoginBean {
      * Creates a new instance of Login
      */
     public LoginBean() {
-        servicio = new ServicioLogin();
+        servicioLogin = new ServicioLogin();
     }
     
     //-----------------------------------------------------------
@@ -78,6 +86,24 @@ public class LoginBean {
         this.contrasena = contrasena;
     }
     
+        /**
+     * Get the value of mostrarMensaje
+     *
+     * @return the value of mostrarMensaje
+     */
+    public boolean isMostrarMensaje() {
+        return mostrarMensaje;
+    }
+
+    /**
+     * Get the value of mensaje
+     *
+     * @return the value of mensaje
+     */
+    public String getMensaje() {
+        return mensaje;
+    }
+    
     //-----------------------------------------------------------
     // Metodos
     //-----------------------------------------------------------
@@ -88,6 +114,19 @@ public class LoginBean {
      */
     public String loginMedico()
     {
-        return "dashboard";
+        try {
+            mostrarMensaje = false;
+            mensaje = null;
+            //Busco el medico y verifico el login
+            Medico medico = servicioLogin.loginMedico(usuario, contrasena);
+            FacesContext context = FacesContext.getCurrentInstance();
+            DashboardBean dashboardBean = (DashboardBean) context.getApplication().evaluateExpressionGet(context, "#{dashboardBean}", DashboardBean.class);
+            dashboardBean.setMedico(medico);
+            return "dashboard";
+        } catch (AuthException ex) {
+            mostrarMensaje = true;
+            mensaje = ex.getMessage();
+            return null;
+        }
     }
 }

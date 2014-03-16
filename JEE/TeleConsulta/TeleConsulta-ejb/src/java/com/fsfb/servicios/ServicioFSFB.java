@@ -77,12 +77,12 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         {
             if(!buscado.getContrasena().equals(contrasena))
             {
-                buscado=null;
+                throw new AuthException("La contraseña no es correcta");
             }
         }
         else
         {
-            throw new AuthException();
+            throw new AuthException("El usuario no existe");
         }
         return buscado;
     }
