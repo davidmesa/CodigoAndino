@@ -118,7 +118,10 @@
                 <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Cantidad de logs registrados</h3>
               </div>
               <div class="panel-body">
-                <div id="registros"></div>
+                  <ice:outputChart type="area" styleClass="col-sm-offset-3" 
+        		labels="pass, fail" 
+        		data="70, 30, 10 , 5, 20 , 25 : 10, 50, 70 , 3 , 15 , 30" 
+        		colors="green, red"/>
               </div>
             </div>
           </div>
@@ -222,37 +225,6 @@
       </div><!-- /#page-wrapper -->
 
     </div><!-- /#wrapper -->
-    
-     <!-- Page Specific Plugins -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
-    <script src="./resources/js/morris/chart-data-morris.js"></script>
-    <script src="./resources/js/tablesorter/jquery.tablesorter.js"></script>
-    <script src="./resources/js/tablesorter/tables.js"></script>
-    
-    
-    <script>
-		new Morris.Line({
-		  // ID of the element in which to draw the chart.
-		  element: 'registros',
-		  // Chart data records -- each entry in this array corresponds to a point on
-		  // the chart.
-		  data: [
-			{ year: '2008', value: 20 },
-			{ year: '2009', value: 10 },
-			{ year: '2010', value: 5 },
-			{ year: '2011', value: 5 },
-			{ year: '2012', value: 20 }
-		  ],
-		  // The name of the data record attribute that contains x-values.
-		  xkey: 'year',
-		  // A list of names of data record attributes that contain y-values.
-		  ykeys: ['value'],
-		  // Labels for the ykeys -- will be displayed when you hover over the
-		  // chart.
-		  labels: ['Value']
-		});
-	</script>
 
     </ui:define>
 </ui:composition>
