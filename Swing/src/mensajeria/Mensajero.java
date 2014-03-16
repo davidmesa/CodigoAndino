@@ -54,8 +54,7 @@ public class Mensajero {
 			if (((String) response.get("status")).equals("error")) {
 				throw new Exception();
 			} else if (((String) response.get("status")).equals("alert")) {
-				return ((String) response.get("mensaje")).replaceAll(
-						"(\\\\|\\{|\\})", "");
+				return ((String) response.get("mensaje"));
 			}
 			return "ok";
 		}
@@ -80,13 +79,7 @@ public class Mensajero {
 			if (((String) response.get("status")).equals("error")) {
 				throw new Exception();
 			} else if (((String) response.get("status")).equals("alert")) {
-				ArrayList<String> consejo = (ArrayList<String>) response
-						.get("consejo");
-				String res = "";
-				for (String s : consejo) {
-					res += s + "\n";
-				}
-				return res;
+				return (String) response.get("mensaje");
 			}
 			return "ok";
 		}

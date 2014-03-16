@@ -230,9 +230,59 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         }
         else
         {
-            //  Análisis de Menores de 20.
-            //  No se hace concretamente...
-            //  Ellos tienen mucha vida...
+            if(imc<18.5)
+            {
+                status="alert";
+                cadena="Tienes un estado de DELGADEZ ";
+                cadena=cadena+((imc<16)?"SEVERA":(imc<17)?"MODERADA":"NO MUY PRONUNCIADA");
+                cadena=cadena+"\n\n"
+                        + "Te damos 9 consejos para subir de peso de manera saludable"
+                        + "\n1. Come cada tres horas y trata de incluir una variedad de nutrientes cada"
+                        + " vez que lo hagas, aún cuando se trate de bocadillos entre comidas. Recuerda"
+                        + " siempre incluir proteínas, carbohidratos y grasas. Por ejemplo: yogurt con"
+                        + " frutas y galletas con mantequilla de maní."
+                        + "\n2. Consume calorías de fuentes apropiadas. Las grasas son de las que más calorías"
+                        + " aportan, pero debes tener cuidado de que no sean grasas saturadas, para evitar que"
+                        + " se eleve tu nivel de colesterol. Elige grasas de origen vegetal, como nueces y almendras,"
+                        + "  aceite de oliva, aguacates (palta), aceitunas, pescados y otros alimentos ricos en"
+                        + " calorías, vitaminas y minerales, en vez de productos con mucha grasa o azúcar (como los"
+                        + " que come Julián, con sus papas fritas y la soda)."
+                        + "\n3. Incluye muchas proteínas en tu dieta. En este caso, también deben ser de fuentes"
+                        + " adecuadas. Elige productos bajos en grasa animal: selecciona las carnes magras, pero"
+                        + " las nueces y las semillas son saludables."
+                        + "\n4. Bebe mucho líquido. Los licuados de fruta son ideales porque aportan vitaminas, "
+                        + "minerales y calorías. Puedes agregarles leche o yogurt bajos en grasa para aumentar "
+                        + "las calorías que consumas."
+                        + "\n5. Aumenta las calorías de tus comidas. Otra clave para lograrlo es agregar huevos, por "
+                        + "ejemplo, al puré de papas, a la sopa y a los batidos."
+                        + "\n6. Si te sientes satisfecho(a) muy pronto, prueba dejar de beber durante media hora antes "
+                        + "y después de cada comida o tomar un pequeño trago de alcohol para que te abra el apetito "
+                        + "(pero ten cuidado, recuerda que tomar alcohol en exceso puede ser perjudicial para la salud)."
+                        + "\n7. Toma una cena tardía o come algo nutritivo antes de ir a dormir. Así el cuerpo no necesita "
+                        + "tomar las calorías que necesita de las que consumió durante el día, ya que en ese momento, las "
+                        + "células se están regenerando y reparando."
+                        + "\n8. Duerme suficiente para que los músculos puedan reconstruirse adecuadamente. Distintas "
+                        + "investigaciones han comprobado las ventajas para la salud de dormir bien y de dormir el número "
+                        + "de horas necesarias."
+                        + "\n9. Mantén una rutina de ejercicios y de entrenamiento físico. Si bien los ejercicios de "
+                        + "resistencia son los que te permiten desarrollar masa muscular, no te olvides de los aeróbicos, "
+                        + "que también son saludables.";
+            } else if(imc>25) {
+                status="alert";
+                cadena="En términos medicos, estás en un estado de OBESIDAD TIPO ";
+                cadena=cadena+((imc<35)?"I":(imc<40)?"II":"III");
+                cadena=cadena+"\n\nTe recomendamos seguir los siguientes consejos: "
+                        + "\n1. Bebe dos vasos de agua antes de desayunar"
+                        + "\n2. Empieza comiendo fruta desde muy temprano"
+                        + "\n3. Realiza dos tentempiés sanos"
+                        + "\n4. Come despacio"
+                        + "\n5. Inclínate por productos orgánicos"
+                        + "\n6. Intenta consumir altas dosis de fibra combinando alimentos"
+                        + "\n7. Cena muy ligero"
+                        + "\n8. Antes de acostarte, tómate una bebida relajante";
+            } else {
+                status = "ok";
+            }
         }
         String cadena2 = "{\"status\":\"" + status + "\", \"mensaje\":\"" + cadena + "\"}";
         return cadena2;
