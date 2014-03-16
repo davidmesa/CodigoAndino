@@ -103,14 +103,15 @@ public class Mensajero {
 				.getInputStream()));
 		conexion.disconnect();
 
-		if (response.get("token").equals("null")) {
-			throw new Exception(
-					"No se encontró su cuenta en el servidor remoto.\n "
-							+ "Por favor regístrese en las instalaciones de la FSFB.");
+		if (response.containsKey("status")) {
+			if(response.get("status").equals("error")) {
+				throw new Exception((String) response.get("mensaje"));				
+			}
 		} else {
 			token = (String) response.get("token");
 			return true;
 		}
+		return false;
 	}
 
 	private void enviarMensaje(HttpURLConnection conexion,

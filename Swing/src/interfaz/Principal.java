@@ -139,9 +139,13 @@ public class Principal extends JFrame {
 		btnEnviarImc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					int altura = -1;
+					if(!alturaField.getText().equals("")) {
+						altura = Integer.parseInt(alturaField.getText());
+					}
 					mensajero.enviarIMC(
 							Double.parseDouble(pesoField.getText()),
-							Integer.parseInt(alturaField.getText()));
+							altura);
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
@@ -167,6 +171,6 @@ public class Principal extends JFrame {
 
 	public void avisar() {
 		JOptionPane.showMessageDialog(null,
-				"Atención: Debe tomarse las medidas.");
+				"Atenciï¿½n: Debe tomarse las medidas.");
 	}
 }

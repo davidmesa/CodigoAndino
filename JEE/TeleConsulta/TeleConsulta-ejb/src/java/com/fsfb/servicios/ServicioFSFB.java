@@ -139,12 +139,12 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         }
         else
         {
-            throw new AuthException();
+            throw new AuthException("No se ha encontrado una cuenta con los datos ingresados.");
         }
     }
 
     @Override
-    public String registarIMC(Paciente paciente, double peso, double altura) {
+    public String registarIMC(Paciente paciente, double peso, int altura) {
         if(altura!=-1)
         {
             paciente.setEstatura(altura);
@@ -153,11 +153,13 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         double imc=paciente.registarIMC(peso, altura).getIMC();
         int edad=paciente.calcularEdad();
         String cadena=null;
+        String status="";
         //  CONDICIONES DE ALERTA
         if(edad>60)
         {
             if(imc<25 || imc>27)
             {
+                status= "alert";
                 cadena="Te recomendamos que apliques la siguiente dieta, tienes un IMC un poco distante"
                         + " del ideal\n"
                         + "DIETA PARA EL ANCIANO SANO"
@@ -174,6 +176,7 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         {
             if(imc<18.5)
             {
+                status="alert";
                 cadena="Tienes un estado de DELGADEZ ";
                 cadena=cadena+((imc<16)?"SEVERA":(imc<17)?"MODERADA":"NO MUY PRONUNCIADA");
                 cadena=cadena+"\n\n"
@@ -211,6 +214,7 @@ public class ServicioFSFB implements ServicioFSFBLocal {
             }
             else if(imc>25)
             {
+                status="alert";
                 cadena="En términos medicos, estás en un estado de OBESIDAD TIPO ";
                 cadena=cadena+((imc<35)?"I":(imc<40)?"II":"III");
                 cadena=cadena+"\n\nTe recomendamos seguir los siguientes consejos: "
@@ -230,7 +234,8 @@ public class ServicioFSFB implements ServicioFSFBLocal {
             //  No se hace concretamente...
             //  Ellos tienen mucha vida...
         }
-        return cadena;
+        String cadena2 = "{\"status\":\"" + status + "\", \"mensaje\":\"" + cadena + "\"}";
+        return cadena2;
     }
 
     @Override
@@ -240,10 +245,12 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         
         //  CONDICIONES DE ALERTA
         String cadena=null;
+        String status = "";
         if(edad>=18)
         {
             if(siastole>=180 || diastole>=110)
             {
+                status="alert";
                 cadena="[ATENCIÓN] Caso de HIPERTENSIÓN ETAPA 3"
                         + "\nConserve la calma"
                         + "\nLe recomendamos ir lo más pronto a un centro de servicio"
@@ -251,6 +258,7 @@ public class ServicioFSFB implements ServicioFSFBLocal {
             }
             else if(siastole>=160 || diastole>=100)
             {
+                status="alert";
                 cadena="Caso de HIPERTENSIÓN ETAPA 2"
                         + "\nLe recomendamos hace un chequeo al médico en este mes."
                         + "\n\nPara bajar la Hipertensión:"
@@ -261,7 +269,8 @@ public class ServicioFSFB implements ServicioFSFBLocal {
             }
             else if(siastole>=140 || diastole>=90)
             {
-                cadena="Caso de HIPERTENSIÓN ETAPA 3"
+                status="alert";
+                cadena="Caso de HIPERTENSIÓN ETAPA 1"
                         + "\nLe recomendamos hacer un chequeo al médico por lo menos una vez en dos meses"
                         + "\n\nPara controlar la Hipertensión, usted puede:"
                         + "\n1. Evitar los alimentos salados"
@@ -279,6 +288,7 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         {
             //  No se revisa el caso de un niño...
         }
-        return cadena;
+        String cadena2 = "{\"status\":\"" + status + "\", \"mensaje\":\"" + cadena + "\"}";
+        return cadena2;
     }
 }
