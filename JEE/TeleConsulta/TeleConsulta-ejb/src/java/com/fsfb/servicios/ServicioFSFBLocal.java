@@ -43,7 +43,22 @@ public interface ServicioFSFBLocal {
      */
     public String darTokenDelPaciente(String usuario, String contrasena) throws AuthException;
 
+    /**
+     * Crea un registro de IMC para el paciente indicado.
+     * @param paciente, del que vamos a registar IMC
+     * @param peso, peso del paciente que servirá para calcular IMC
+     * @param altura, altura del paciente por si ha cambiado desde la última vez.
+     * @return String, NULL si todo esta bien, NO NULL, con el mensaje de alerta
+     */
     String registarIMC(Paciente paciente, double peso, double altura);
 
-    String registarPresionArterial(Paciente paciente);
+    /**
+     * Crea un registro de Presión Arterial para el paciente indicado por parámestro
+     * @param diastole, dato de la Presión Arterial
+     * @param siastole, dato de la Presión Arterial
+     * @param pulsaciones, dato de la Presión Arterial
+     * @param paciente de FSFB
+     * @return String, NULL si todo esta bien, NO NULL, con la alerta de emergencia.
+     */
+    String registrarPresionArterial(Paciente paciente, int diastole, int siastole, int pulsaciones);
 }

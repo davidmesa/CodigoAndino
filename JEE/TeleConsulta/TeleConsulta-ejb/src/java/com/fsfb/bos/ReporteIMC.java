@@ -18,11 +18,6 @@ public class ReporteIMC {
      */
     private Paciente paciente;
     
-    public ReporteIMC(Paciente paciente)
-    {
-        
-    }
-    
     /**
      * Peso de la pèrson en kilogtramos
      */
@@ -43,8 +38,9 @@ public class ReporteIMC {
      */
     private Date fechaReporte;
     
-    public ReporteIMC(double paramPeso, double paramAltura, Date fecha)
+    public ReporteIMC(Paciente paramPaciente, double paramPeso, double paramAltura, Date fecha)
     {
+        paciente=paramPaciente;
         peso=paramPeso;
         altura=paramAltura;
         IMC=peso/(altura*altura);

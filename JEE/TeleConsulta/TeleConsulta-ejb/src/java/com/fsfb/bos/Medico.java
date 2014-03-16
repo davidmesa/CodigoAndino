@@ -23,6 +23,9 @@ public class Medico {
      */
     private String contrasena;
     
+    /**
+     * Lista de Pacientes asignados
+     */
     private HashMap<String, Paciente> pacientes;
     
     /**
