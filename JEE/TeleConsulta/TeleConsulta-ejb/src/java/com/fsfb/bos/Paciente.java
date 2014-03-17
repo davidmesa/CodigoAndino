@@ -5,6 +5,7 @@
 package com.fsfb.bos;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 /**

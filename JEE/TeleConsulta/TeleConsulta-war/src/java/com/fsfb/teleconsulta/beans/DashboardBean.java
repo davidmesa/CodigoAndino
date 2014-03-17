@@ -103,4 +103,14 @@ public class DashboardBean {
         }
         return respuesta;
     }
+    
+    public Collection<Paciente> getPacientes()
+    {
+        return servicio.darPacientes();
+    }
+    
+    public String getImcPaciente()
+    {
+        return " 0 ,0";
+    }
 }

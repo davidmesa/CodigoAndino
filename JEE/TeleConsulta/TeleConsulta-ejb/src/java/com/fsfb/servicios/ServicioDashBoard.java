@@ -9,7 +9,7 @@ package com.fsfb.servicios;
 import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
 import java.util.ArrayList;
-import javax.ejb.EJB;
+import java.util.Collection;
 import javax.ejb.Stateful;
 
 /**
@@ -37,7 +37,7 @@ public class ServicioDashBoard implements ServicioDashBoardLocal {
     }
     
     @Override
-    public ArrayList<Paciente> darPacientes() {
+    public Collection<Paciente> darPacientes() {
         return actual.darpacientes();
     }
     
