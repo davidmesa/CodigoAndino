@@ -13,11 +13,9 @@ import com.fsfb.bos.ReportePresionArterial;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import javax.annotation.Resource;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
-import javax.jms.Topic;
 import javax.security.auth.message.AuthException;
 
 /**

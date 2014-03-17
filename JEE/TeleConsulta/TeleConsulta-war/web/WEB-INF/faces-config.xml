@@ -39,7 +39,7 @@
     <navigation-rule>
         <navigation-case>
             <from-outcome>pacientes_menu</from-outcome>
-            <to-view-id>/dashboard.jsf</to-view-id>
+            <to-view-id>/pacientes.jsf</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>

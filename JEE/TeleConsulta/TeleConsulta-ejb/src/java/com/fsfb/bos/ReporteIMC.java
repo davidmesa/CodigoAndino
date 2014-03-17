@@ -78,5 +78,10 @@ public class ReporteIMC {
     public Date getFechaReporte() {
         return fechaReporte;
     }
+    
+    public String getFechaString()
+    {
+        return fechaReporte.toString();
+    }
 
 }

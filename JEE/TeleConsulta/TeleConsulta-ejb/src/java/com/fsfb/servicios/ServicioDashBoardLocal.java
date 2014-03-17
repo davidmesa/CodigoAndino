@@ -10,6 +10,7 @@ package com.fsfb.servicios;
 import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
 import java.util.ArrayList;
+import java.util.Collection;
 import javax.ejb.Local;
 
 /**
@@ -23,7 +24,7 @@ public interface ServicioDashBoardLocal {
      * Retorna los Pacientes del médico en cuestión
      * @return Arreglo de Pacientes
      */
-    ArrayList<Paciente> darPacientes();
+    Collection<Paciente> darPacientes();
     
 
     /**

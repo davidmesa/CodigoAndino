@@ -5,7 +5,7 @@
 package com.fsfb.bos;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 
 /**
  * Clase Medico
@@ -26,7 +26,7 @@ public class Medico {
     /**
      * Lista de Pacientes asignados
      */
-    private HashMap<String, Paciente> pacientes;
+    private ArrayList<Paciente> pacientes;
     
     /**
      * Metodo constructor de la clase medico
@@ -36,7 +36,7 @@ public class Medico {
     public Medico( String nUsuario, String nContrasena ) {
         usuario = nUsuario;
         contrasena = nContrasena;
-        pacientes = new HashMap<String, Paciente>();
+        pacientes = new ArrayList<Paciente>();
     }
 
     /**
@@ -76,7 +76,7 @@ public class Medico {
      */
     public void agregarPaciente(Paciente paciente)
     {
-        pacientes.put(paciente.getUsuario(), paciente);
+        pacientes.add(paciente);
     }
     
     /**
@@ -85,15 +85,15 @@ public class Medico {
      */
     public void eliminarPaciente(Paciente paciente)
     {
-        pacientes.remove(paciente.getUsuario());
+        pacientes.remove(paciente);
     }
     
     /**
      * Método que retorna le arreglo de pacientes
      * @return los pacientes en un arreglo
      */
-    public ArrayList<Paciente> darpacientes()
+    public Collection<Paciente> darpacientes()
     {
-        return (ArrayList)pacientes.values();
+        return pacientes;
     }
 }
