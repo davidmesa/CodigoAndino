@@ -8,6 +8,7 @@ package com.fsfb.servicios;
 
 import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
+import java.util.ArrayList;
 import javax.ejb.Local;
 import javax.security.auth.message.AuthException;
 
@@ -61,4 +62,23 @@ public interface ServicioFSFBLocal {
      * @return String, NULL si todo esta bien, NO NULL, con la alerta de emergencia.
      */
     String registrarPresionArterial(Paciente paciente, int diastole, int siastole, int pulsaciones);
+
+    /**
+     * Retorna el arreglo de pacientes que han tenido emergencia
+     * @return Arreglo de Pacientes
+     */
+    ArrayList<Paciente> darPacientesConEmergencia();
+    
+    /**
+     * Retorna el arreglo de pacientes que han tenido una consulta
+     * @return Arreglo de pacientes
+     */
+    ArrayList<Paciente> darPacientesConConsulta();
+
+    /**
+     * Retorna arreglo de Enteros que indican para cada posicion el numero de Registros
+     * Sea posición 0=Domingo, 1=Lunes, 2=Martes y asi hasta el día 6=Sábado
+     * @return Arreglo de Enteros
+     */
+    Integer[] darRegistrosSemanales();
 }

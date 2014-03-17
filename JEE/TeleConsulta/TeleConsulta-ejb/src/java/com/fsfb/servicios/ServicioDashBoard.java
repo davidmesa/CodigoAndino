@@ -9,8 +9,8 @@ package com.fsfb.servicios;
 import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
 import java.util.ArrayList;
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
-import javax.security.auth.message.AuthException;
 
 /**
  *
@@ -33,16 +33,31 @@ public class ServicioDashBoard implements ServicioDashBoardLocal {
     private ServicioFSFB fsfb;
     
     public ServicioDashBoard() {
-        fsfb=new ServicioFSFB();
-        try {
-            actual=fsfb.darMedicoPorDatos("davidmesa", "algo");
-        } catch (AuthException ex) {
-            System.out.println(ex.getMessage());
-        }
+        fsfb = ServicioFSFB.darInstancia();
     }
     
     @Override
     public ArrayList<Paciente> darPacientes() {
         return actual.darpacientes();
+    }
+    
+    @Override
+    public ArrayList<Paciente> darPacientesConEmergencia() {
+        return fsfb.darPacientesConEmergencia();
+    }
+
+    @Override
+    public Integer[] darRegistrosSemanales() {
+        return fsfb.darRegistrosSemanales();
+    }
+    
+    @Override
+    public void setActual(Medico actual) {
+        this.actual = actual;
+    }
+
+    @Override
+    public ArrayList<Paciente> darPacientesConConsulta() {
+        return fsfb.darPacientesConConsulta();
     }
 }

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/main-template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:param name="titulo" value="Dashboard" />
+    <ui:define name="body">
+        <div id="wrapper">
+
+      <!-- Sidebar -->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">FSFB - Teleconsulta</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav side-nav">
+              <li><h:link outcome="principal_menu"><i class="fa fa-dashboard"></i> Principal</h:link></li>
+            <li class="active"><h:link outcome="alertas_menu"><i class="fa fa-bar-chart-o"></i> Alertas</h:link></li>
+            <li><h:link outcome="pacientes_menu"><i class="fa fa-user"></i> Pacientes</h:link></li>
+            <li><h:link outcome="consejos_menu"><i class="fa fa-edit"></i> Consejos</h:link></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right navbar-user">
+            <li class="dropdown user-dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> #{dashboardBean.nombreMedico} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div id="page-wrapper">
+        <div class="row">
+          <div class="col-lg-12">
+            <h1>Alertas</h1>
+            <ol class="breadcrumb">
+              <li class="active"><i class="fa fa-dashboard"></i> Dashboard/Alertas</li>
+            </ol>
+          </div>
+        </div><!-- /.row -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-clock-o"></i> Actividad de Tensión</h3>
+              </div>
+              <div class="panel-body">
+                <div class="list-group">
+                    <ice:panelSeries var="paciente" value="#{dashboardBean.reportesAlerta}">
+                        <a class="list-group-item">
+                            <span class="badge">#{paciente.darUltimaFechaTension()}</span>
+                            <i class="fa fa-user"></i> #{paciente.usuario}
+                        </a>
+                    </ice:panelSeries>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.row -->
+
+      </div><!-- /#page-wrapper -->
+
+    </div><!-- /#wrapper -->
+
+    </ui:define>
+</ui:composition>

@@ -6,8 +6,6 @@ package com.fsfb.servicios;
 
 import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
-import java.util.Date;
-import java.util.HashMap;
 import javax.ejb.Stateless;
 import javax.security.auth.message.AuthException;
 
@@ -28,7 +26,7 @@ public class ServicioLogin implements ServicioLoginLocal {
      */
     public ServicioLogin()
     {
-        fsfb=new ServicioFSFB();
+        fsfb = ServicioFSFB.darInstancia();
     }
 
     /**

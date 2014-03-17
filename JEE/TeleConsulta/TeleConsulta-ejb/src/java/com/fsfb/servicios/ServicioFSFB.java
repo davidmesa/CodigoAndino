@@ -8,10 +8,16 @@ package com.fsfb.servicios;
 
 import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
+import com.fsfb.bos.ReporteIMC;
 import com.fsfb.bos.ReportePresionArterial;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import javax.annotation.Resource;
+import javax.ejb.Lock;
+import javax.ejb.LockType;
 import javax.ejb.Singleton;
+import javax.jms.Topic;
 import javax.security.auth.message.AuthException;
 
 /**
@@ -21,10 +27,12 @@ import javax.security.auth.message.AuthException;
 @Singleton
 public class ServicioFSFB implements ServicioFSFBLocal {
 
+    private static ServicioFSFB instancia;
+    
     /**
      * Constante para la creación simulada de pacientes
      */
-    public final static int NUMERO_PACIENTES=10;
+    public final static int NUMERO_PACIENTES=20;
     
     /**
      * Constante para la creación simulada de medicos
@@ -42,23 +50,57 @@ public class ServicioFSFB implements ServicioFSFBLocal {
     private HashMap<String, Paciente> pacientes;
     
     /**
+     * Arreglo que indica las personas que tienen emergencia
+     */
+    private ArrayList<Paciente> alertados;
+    
+    /**
+     * Arreglo que indica las personas que tienen una consulta
+     */
+    private ArrayList<Paciente> consultados;
+    
+    /**
+     * Arreglo de cantidad de datos por Semana
+     */
+    private Integer[] registrosSemanales;
+    
+    /**
      * Constructor
      */
     public ServicioFSFB()
     {
+        alertados = new ArrayList<Paciente>();
+        
+        consultados = new ArrayList<Paciente>();
+        
+        registrosSemanales=new Integer[7];
+        for(int i=0; i<7; i++)
+        {
+            registrosSemanales[i]=0;
+        }
+        
         medicos = new HashMap<String, Medico>();
         for(int i=0; i<NUMERO_MEDICOS; i++)
         {
             medicos.put("Medico"+(i+1), new Medico("Medico"+(i+1),"Medico"+(i+1)));
         }
-        medicos.put("davidmesa", new Medico("davidmesa", "algo"));
+        Medico david=new Medico("davidmesa", "algo");
+        medicos.put(david.getUsuario(), david);
         
         pacientes = new HashMap<String, Paciente>();
         for(int i=0; i<NUMERO_PACIENTES; i++)
         {
-            pacientes.put("Paciente"+(i+1), new Paciente("Paciente"+(i+1),"Paciente"+(i+1),i+100,new Date()));
+            Date fn=new Date(1910+(int) Math.random()*100,(int)Math.random()*12, (int) Math.random()*28);
+            Paciente nuevo=new Paciente("Paciente"+(i+1),"Paciente"+(i+1),(i*4)+100, fn);
+            pacientes.put(nuevo.getUsuario(), nuevo);
+            if(i%2==0 && i<NUMERO_PACIENTES/3)
+            {
+                david.agregarPaciente(nuevo);
+            }
         }
-        pacientes.put("cristiansierra", new Paciente("cristiansierra", "algo",160,new Date("22/11/1995")));
+        Paciente cristian=new Paciente("cristiansierra", "algo",160,new Date("22/11/1995"));
+        pacientes.put(cristian.getUsuario(), cristian);
+        david.agregarPaciente(cristian);
     }
     
     /**
@@ -148,8 +190,13 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         {
             paciente.setEstatura(altura);
         }
-        //ReporteIMC retornado=paciente.registarIMC(peso, altura);
-        double imc=paciente.registarIMC(peso, altura).getIMC();
+        ReporteIMC retornado=paciente.registarIMC(peso, altura);
+        
+        Date fechaReporte=retornado.getFechaReporte();
+        int numeroDia=fechaReporte.getDay();
+        registrarReporte(numeroDia);
+        
+        double imc=retornado.getIMC();
         int edad=paciente.calcularEdad();
         String cadena=null;
         String status="";
@@ -282,16 +329,32 @@ public class ServicioFSFB implements ServicioFSFBLocal {
                         + "\n8. Antes de acostarte, tómate una bebida relajante";
             } else {
                 status = "ok";
+                cadena = "Presenta un aceptado IMC";
             }
+        }
+        if(status.equals("alert"))
+        {
+            agregarAConsultados(paciente);
         }
         String cadena2 = "{\"status\":\"" + status + "\", \"mensaje\":\"" + cadena + "\"}";
         return cadena2;
+    }
+    
+    @Lock(LockType.WRITE)
+    public void agregarAConsultados( Paciente paciente )
+    {
+        consultados.add(paciente);
+        System.out.print("Agrega a la tabla!!"+consultados.size());
     }
 
     @Override
     public String registrarPresionArterial(Paciente paciente, int diastole, int siastole, int pulsaciones) {
         ReportePresionArterial reporte=paciente.registarPresionArterial(diastole, siastole, pulsaciones);
         int edad=paciente.calcularEdad();
+        
+        Date fechaReporte=reporte.getFechaReporte();
+        int numeroDia=fechaReporte.getDay();
+        registrarReporte(numeroDia);
         
         //  CONDICIONES DE ALERTA
         String cadena=null;
@@ -333,14 +396,95 @@ public class ServicioFSFB implements ServicioFSFBLocal {
                 // TODO
                 //  Puede que tenga Normal Alta o Normal o Óptima
                 //  No afecta la salud del usuario
+                status = "ok";
+                cadena = "Presenta un aceptada Presión Arterial";
             }
         }
         else
         {
-            // TODO
-            //  No se revisa el caso de un niño...
+            if(siastole>=180 || diastole>=110)
+            {
+                status="alert";
+                cadena="[ATENCIÓN] Caso de HIPERTENSIÓN ETAPA 3"
+                        + "\nConserve la calma"
+                        + "\nLe recomendamos ir lo más pronto a un centro de servicio"
+                        + "\nNosotros en la FUNDACIÓN SANTAFE DE BOGOTÁ, estaremos atentos a su llegada";
+            }
+            else if(siastole>=160 || diastole>=100)
+            {
+                status="alert";
+                cadena="Caso de HIPERTENSIÓN ETAPA 2"
+                        + "\nLe recomendamos hace un chequeo al médico en este mes."
+                        + "\n\nPara bajar la Hipertensión:"
+                        + "Le recomendamos llevar una dieta saludable, si tiene sintomas "
+                        + "tome jugos naturales (En especial, de Lulo). Además considere "
+                        + "seleccionar comida saludable."
+                        + "\n Si el sintoma persiste venga a la central medica";
+            }
+            else if(siastole>=140 || diastole>=90)
+            {
+                status="alert";
+                cadena="Caso de HIPERTENSIÓN ETAPA 1"
+                        + "\nLe recomendamos hacer un chequeo al médico por lo menos una vez en dos meses"
+                        + "\n\nPara controlar la Hipertensión, usted puede:"
+                        + "\n1. Evitar los alimentos salados"
+                        + "\n2. Llevar una dieta moderada (Sin grasas)"
+                        + "\n3. Consuma vitámina B de alimentos frescos"
+                        + "\n4. Consuma alimentos ricos en Omega-3 y Potasio";
+            }
+            else
+            {
+                // TODO
+                //  Puede que tenga Normal Alta o Normal o Óptima
+                //  No afecta la salud del usuario
+                status = "ok";
+                cadena = "Presenta un aceptada Presión Arterial";
+            }
+        }
+        if(status.equals("alert"))
+        {
+            agregarAAlertados(paciente);
         }
         String cadena2 = "{\"status\":\"" + status + "\", \"mensaje\":\"" + cadena + "\"}";
         return cadena2;
+    }
+    
+    @Lock(LockType.WRITE)
+    private void agregarAAlertados(Paciente paciente)
+    {
+        alertados.add(paciente);
+    }
+    
+    @Lock(LockType.WRITE)
+    private void registrarReporte( int i )
+    {
+        registrosSemanales[i]=registrosSemanales[i]+1;
+    }
+
+    @Override
+    public ArrayList<Paciente> darPacientesConEmergencia() {
+        return alertados;
+    }
+    
+    @Override
+    public ArrayList<Paciente> darPacientesConConsulta()
+    {
+        System.out.print("Pide la tabla" + consultados.size());
+        return consultados;
+    }
+
+    @Override
+    public Integer[] darRegistrosSemanales() {
+        return registrosSemanales;
+    }
+    
+    public static ServicioFSFB darInstancia()
+    {
+        if(instancia == null)
+        {
+            System.out.print("Crea instancia");
+            instancia = new ServicioFSFB();
+        }
+        return instancia;
     }
 }

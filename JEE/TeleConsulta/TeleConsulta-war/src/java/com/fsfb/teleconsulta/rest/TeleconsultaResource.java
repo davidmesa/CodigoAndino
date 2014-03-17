@@ -34,7 +34,7 @@ public class TeleconsultaResource {
      */
     public TeleconsultaResource() {
         servicio = new ServicioLogin();
-        serFSFB = new ServicioFSFB(); // Tal vez deberia ser singleton
+        serFSFB = ServicioFSFB.darInstancia();
     }
     
     /**
