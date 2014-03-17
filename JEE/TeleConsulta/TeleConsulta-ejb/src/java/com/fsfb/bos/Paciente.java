@@ -215,4 +215,25 @@ public class Paciente {
             }
         }
     }
+    
+    public String darUltimaFechaIMC()
+    {
+        if(!reportesIMC.isEmpty())
+        {
+            Date fecha = reportesIMC.get(reportesIMC.size()-1).getFechaReporte();
+            return fecha.toString();
+        }
+        return "Now";
+    }
+    
+    public String darUltimaFechaTension()
+    {
+        if(!reportesPresionArterial.isEmpty())
+        {
+            Date fecha;
+            fecha = reportesPresionArterial.get(reportesPresionArterial.size()-1).getFechaReporte();
+            return fecha.toString();
+        }
+        return "Now";
+    }
 }

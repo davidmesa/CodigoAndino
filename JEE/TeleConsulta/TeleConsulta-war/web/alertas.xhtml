@@ -62,7 +62,7 @@
                 <div class="list-group">
                     <ice:panelSeries var="paciente" value="#{dashboardBean.reportesAlerta}">
                         <a class="list-group-item">
-                            <span class="badge">#{paciente.calcularEdad()}</span>
+                            <span class="badge">#{paciente.darUltimaFechaTension()}</span>
                             <i class="fa fa-user"></i> #{paciente.usuario}
                         </a>
                     </ice:panelSeries>

@@ -9,8 +9,8 @@ package com.fsfb.servicios;
 import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
 import java.util.ArrayList;
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
-import javax.security.auth.message.AuthException;
 
 /**
  *
@@ -33,7 +33,7 @@ public class ServicioDashBoard implements ServicioDashBoardLocal {
     private ServicioFSFB fsfb;
     
     public ServicioDashBoard() {
-        fsfb = new ServicioFSFB();
+        fsfb = ServicioFSFB.darInstancia();
     }
     
     @Override
@@ -49,9 +49,15 @@ public class ServicioDashBoard implements ServicioDashBoardLocal {
     @Override
     public Integer[] darRegistrosSemanales() {
         return fsfb.darRegistrosSemanales();
-
+    }
+    
     @Override
     public void setActual(Medico actual) {
         this.actual = actual;
+    }
+
+    @Override
+    public ArrayList<Paciente> darPacientesConConsulta() {
+        return fsfb.darPacientesConConsulta();
     }
 }

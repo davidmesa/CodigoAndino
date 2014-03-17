@@ -31,6 +31,12 @@ public interface ServicioDashBoardLocal {
      * @return Arreglo de Pacientes
      */
     ArrayList<Paciente> darPacientesConEmergencia();
+    
+    /**
+     * Retorna el arreglo de pacientes que han tenido una consulta
+     * @return Arreglo de pacientes
+     */
+    ArrayList<Paciente> darPacientesConConsulta();
 
     /**
      * Retorna arreglo de Enteros que indican para cada posicion el numero de Registros

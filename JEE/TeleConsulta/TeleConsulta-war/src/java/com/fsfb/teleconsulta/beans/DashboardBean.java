@@ -8,8 +8,6 @@ import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
 import com.fsfb.servicios.ServicioDashBoard;
 import com.fsfb.servicios.ServicioDashBoardLocal;
-import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Collection;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -25,19 +23,12 @@ public class DashboardBean {
     private ServicioDashBoardLocal servicio;
     
     private Medico medico;
-    
-    private ArrayList<Paciente> alertas;
-    
-    private ArrayList<Paciente> consejos;
-    
 
     /**
      * Creates a new instance of DashboardBean
      */
     public DashboardBean() {
         servicio = new ServicioDashBoard();
-        alertas = new ArrayList<Paciente>();
-        consejos = new ArrayList<Paciente>();
     }
     
     /**
@@ -67,7 +58,7 @@ public class DashboardBean {
      */
     public int getNumeroDeAlertas()
     {
-        return alertas.size();
+        return servicio.darPacientesConEmergencia().size();
     }
     
     /**
@@ -77,7 +68,7 @@ public class DashboardBean {
      */
     public int getNumeroConsejos()
     {
-        return alertas.size();
+        return servicio.darPacientesConConsulta().size();
     }
     
     /**
@@ -86,7 +77,7 @@ public class DashboardBean {
      */
     public Collection<Paciente> getReportesConsejos()
     {
-        return consejos;
+        return servicio.darPacientesConConsulta();
     }
     
     /**
@@ -95,7 +86,7 @@ public class DashboardBean {
      */
     public Collection<Paciente> getReportesAlerta()
     {
-        return alertas;
+        return servicio.darPacientesConEmergencia();
     }
     
     /**
@@ -105,6 +96,11 @@ public class DashboardBean {
      */
     public String getDataRegistrosSemana()
     {
-        return "50, 40, 10, 100, 90, 80, 70";
+        Integer[] datos = servicio.darRegistrosSemanales();
+        String respuesta = ""+ datos[0];
+        for (int i = 1; i < datos.length; i++) {
+            respuesta += " , "+datos[i];
+        }
+        return respuesta;
     }
 }
