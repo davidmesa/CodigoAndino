@@ -16,12 +16,14 @@ import java.util.HashMap;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.security.auth.message.AuthException;
 
 /**
  * Maneja los medicos y pacientes del hospital.
  * @author Cristian
  */
+@Startup
 @Singleton
 public class ServicioFSFB implements ServicioFSFBLocal {
 

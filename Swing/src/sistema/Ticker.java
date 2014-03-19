@@ -4,9 +4,9 @@ import interfaz.Principal;
 
 public class Ticker extends Thread {
 	
-	private static final long WAIT = 100;
+	private static final long WAIT = 100000; // ms
 	
-	private static final int INTERVAL = 50;
+	private static final int INTERVAL = 50; // ms
 	
 	private int elapsed;
 	
@@ -23,7 +23,7 @@ public class Ticker extends Thread {
 				Thread.sleep(WAIT);
 				elapsed++;
 				if(elapsed % INTERVAL == 0) {
-//					principal.avisar();
+					principal.avisar();
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();

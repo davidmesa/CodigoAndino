@@ -54,7 +54,7 @@
           </div>
         </div><!-- /.row -->
 
-        <div class="row">
+        <ice:panelGroup id="alertas" styleClass="row">
           <div class="col-lg-6">
             <div class="panel panel-danger">
               <div class="panel-heading">
@@ -109,7 +109,7 @@
              </h:link>
             </div>
           </div>
-        </div><!-- /.row -->
+        </ice:panelGroup><!-- /.row -->
 
         <div class="row">
           <div class="col-lg-12">
@@ -175,6 +175,18 @@
       </div><!-- /#page-wrapper -->
 
     </div><!-- /#wrapper -->
+    
+    <script type="text/javascript">
+            setInterval(function() { 
+            document.forms["myForm"].submit();}, 5*1000);
+    </script>
+    
+    <h:form id="myForm">
+        <h:commandButton id="btnLoadData" value="reload" action="/dashboard.jsf"
+        style="display:none">
+                    <f:ajax execute="@form" render=":alertas" />
+        </h:commandButton>
+    </h:form>
 
     </ui:define>
 </ui:composition>

@@ -108,9 +108,4 @@ public class DashboardBean {
     {
         return servicio.darPacientes();
     }
-    
-    public String getImcPaciente()
-    {
-        return " 0 ,0";
-    }
 }
