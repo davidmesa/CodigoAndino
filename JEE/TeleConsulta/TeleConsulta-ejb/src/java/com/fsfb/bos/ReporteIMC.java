@@ -4,19 +4,24 @@
  */
 package com.fsfb.bos;
 
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.*;
 
 /**
  *
  * @author davidmesa
  */
-public class ReporteIMC {
+@Entity
+public class ReporteIMC implements Serializable {
     
-
- 
-
     /**
-<<<<<<< HEAD
+     * Id único del reporte
+     */
+    @Id
+    private int id;
+    
+    /**
      * Atributo que modela el paciente al que pertence el reporte
      */
     private Paciente paciente;
@@ -39,7 +44,15 @@ public class ReporteIMC {
     /**
      * Fecha del Reporte de IMC
      */
+    @Temporal(TemporalType.DATE)
     private Date fechaReporte;
+    
+    /**
+     * Constructor vacío (para JPA)
+     */
+    public ReporteIMC() {
+        
+    }
     
     public ReporteIMC(Paciente paramPaciente, double paramPeso, double paramAltura, Date fecha)
     {
@@ -86,6 +99,4 @@ public class ReporteIMC {
     {
         return fechaReporte.toString();
     }
-
-
 }

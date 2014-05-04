@@ -4,15 +4,18 @@
  */
 package com.fsfb.bos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import javax.persistence.*;
 
 /**
  * Clase Medico
  * @author davidmesa
  */
-public class Paciente {
+@Entity
+public class Paciente implements Serializable {
     
     //--------------------------------------------------------------------------
     //  Atributos
@@ -21,6 +24,7 @@ public class Paciente {
     /**
      * Nombre de usuario del paciente
      */
+    @Id
     private String usuario;
     
     /**
@@ -37,6 +41,7 @@ public class Paciente {
     /**
      * Fecha en la que nacio el paciente
      */
+    @Temporal(TemporalType.DATE)
     private Date fecha_nacimiento;
 
     /**
@@ -53,6 +58,13 @@ public class Paciente {
     //  Constructor
     //--------------------------------------------------------------------------
 
+    /**
+     * Constructor sin argumentos (para JPA)
+     */
+    public Paciente() {
+        
+    }
+    
     /**
      * Constructor de la clase Paciente
      * @param usuario Nombre de usuario del paciente.

@@ -4,17 +4,27 @@
  */
 package com.fsfb.bos;
 
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.*;
 
 /**
  * Reporte de Presión Arterial
  * @author Cristian
  */
-public class ReportePresionArterial {
+@Entity
+public class ReportePresionArterial implements Serializable {
 
     //-------------------------------------------------------------------------
     //  Atributos
     //-------------------------------------------------------------------------
+    
+    /**
+     * Id único del reporte
+     */
+    @Id
+    private int id;
+    
     /**
      * Diástole de la Presión Arterial
      */
@@ -33,6 +43,7 @@ public class ReportePresionArterial {
     /**
      * Fecha de realización del reporte
      */
+    @Temporal(TemporalType.DATE)
     private Date fechaReporte;
     
     /**
@@ -43,6 +54,14 @@ public class ReportePresionArterial {
     //-------------------------------------------------------------------------
     //  Constructor
     //-------------------------------------------------------------------------
+    
+    /**
+     * Constructor vacío (para JPA)
+     */
+    public ReportePresionArterial() {
+        
+    }
+    
     public ReportePresionArterial(Paciente paramPaciente, int paramDiastole, int paramSiastole, int paramPulsaciones, Date fecha) {
         paciente=paramPaciente;
         diastole=paramDiastole;
