@@ -4,18 +4,22 @@
  */
 package com.fsfb.bos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.persistence.*;
 
 /**
  * Clase Medico
  * @author davidmesa
  */
-public class Medico {
+@Entity
+public class Medico implements Serializable {
 
     /**
      * Nombre de usuario del medico
      */
+    @Id
     private String usuario;
     
     /**
@@ -27,6 +31,13 @@ public class Medico {
      * Lista de Pacientes asignados
      */
     private ArrayList<Paciente> pacientes;
+    
+    /**
+     * Constructor sin argumentos (necesario para JPA)
+     */
+    public Medico() {
+        
+    }
     
     /**
      * Metodo constructor de la clase medico
