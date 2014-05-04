@@ -33,9 +33,9 @@ public class ReportePresionArterial implements Serializable {
     private int diastole;
     
     /**
-     * Siástole de la Presión Arterial
+     * Sistole de la Presión Arterial
      */
-    private int siastole;
+    private int sistole;
     
     /**
      * Pulsaciones de la Presión Arterial
@@ -46,6 +46,7 @@ public class ReportePresionArterial implements Serializable {
      * Fecha de realización del reporte
      */
     @Temporal(TemporalType.DATE)
+    @Column(name = "fecha")
     private Date fechaReporte;
     
     /**
@@ -66,7 +67,7 @@ public class ReportePresionArterial implements Serializable {
     public ReportePresionArterial(Paciente paramPaciente, int paramDiastole, int paramSiastole, int paramPulsaciones, Date fecha) {
         paciente=paramPaciente;
         diastole=paramDiastole;
-        siastole=paramSiastole;
+        sistole=paramSiastole;
         pulsaciones=paramPulsaciones;
         fechaReporte=fecha;
     }
@@ -84,10 +85,10 @@ public class ReportePresionArterial implements Serializable {
 
     /**
      * Retorna el valor de la Siastole
-     * @return siastole de la presión arterial
+     * @return sistole de la presión arterial
      */
-    public int getSiastole() {
-        return siastole;
+    public int getSistole() {
+        return sistole;
     }
 
     /**

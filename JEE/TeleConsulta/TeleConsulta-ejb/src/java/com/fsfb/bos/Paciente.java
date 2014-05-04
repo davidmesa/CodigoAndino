@@ -31,9 +31,11 @@ public class Paciente implements Serializable {
     /**
      * Nombre de usuario del paciente
      */
+    @Column(name = "nombre")
     private String usuario;
     
     @ManyToOne
+    @Column(name = "medico_asignado")
     private Medico medicoAsignado;
     
     /**
@@ -50,6 +52,7 @@ public class Paciente implements Serializable {
      * Fecha en la que nacio el paciente
      */
     @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_nac")
     private Date fecha_nacimiento;
 
     /**

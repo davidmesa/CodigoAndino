@@ -26,6 +26,7 @@ public class Medico implements Serializable {
     /**
      * Nombre de usuario del medico
      */
+    @Column(name = "nombre")
     private String usuario;
     
     /**
@@ -38,6 +39,10 @@ public class Medico implements Serializable {
      */
     @OneToMany(mappedBy="medico")
     private ArrayList<Paciente> pacientes;
+    
+    //-------------------------------------------------------------------------
+    //  Métodos
+    //-------------------------------------------------------------------------
     
     /**
      * Constructor sin argumentos (necesario para JPA)

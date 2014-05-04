@@ -48,7 +48,12 @@ public class ReporteIMC implements Serializable {
      * Fecha del Reporte de IMC
      */
     @Temporal(TemporalType.DATE)
+    @Column(name = "fecha")
     private Date fechaReporte;
+    
+    //-------------------------------------------------------------------------
+    //  Métodos
+    //-------------------------------------------------------------------------
     
     /**
      * Constructor vacío (para JPA)
