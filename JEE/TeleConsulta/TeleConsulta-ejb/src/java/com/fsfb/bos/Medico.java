@@ -14,12 +14,18 @@ import javax.persistence.*;
  * @author davidmesa
  */
 @Entity
+@Table(name = "medico")
 public class Medico implements Serializable {
-
+    
+    /**
+     * Cedula del medico
+     */
+    @Id
+    private int cedula;
+    
     /**
      * Nombre de usuario del medico
      */
-    @Id
     private String usuario;
     
     /**
@@ -30,14 +36,13 @@ public class Medico implements Serializable {
     /**
      * Lista de Pacientes asignados
      */
+    @OneToMany(mappedBy="medico")
     private ArrayList<Paciente> pacientes;
     
     /**
      * Constructor sin argumentos (necesario para JPA)
      */
-    public Medico() {
-        
-    }
+    public Medico() {}
     
     /**
      * Metodo constructor de la clase medico

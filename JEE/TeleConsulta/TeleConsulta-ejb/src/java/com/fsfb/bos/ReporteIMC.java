@@ -13,17 +13,20 @@ import javax.persistence.*;
  * @author davidmesa
  */
 @Entity
+@Table(name = "imc")
 public class ReporteIMC implements Serializable {
     
     /**
      * Id único del reporte
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
     /**
      * Atributo que modela el paciente al que pertence el reporte
      */
+    @ManyToOne
     private Paciente paciente;
     
     /**
@@ -50,9 +53,7 @@ public class ReporteIMC implements Serializable {
     /**
      * Constructor vacío (para JPA)
      */
-    public ReporteIMC() {
-        
-    }
+    public ReporteIMC() {}
     
     public ReporteIMC(Paciente paramPaciente, double paramPeso, double paramAltura, Date fecha)
     {

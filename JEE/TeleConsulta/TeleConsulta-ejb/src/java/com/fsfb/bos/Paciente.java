@@ -15,6 +15,7 @@ import javax.persistence.*;
  * @author davidmesa
  */
 @Entity
+@Table(name = "paciente")
 public class Paciente implements Serializable {
     
     //--------------------------------------------------------------------------
@@ -22,17 +23,24 @@ public class Paciente implements Serializable {
     //--------------------------------------------------------------------------
 
     /**
-     * Nombre de usuario del paciente
+     * Cedula del paciente
      */
     @Id
+    private int cedula;
+    
+    /**
+     * Nombre de usuario del paciente
+     */
     private String usuario;
+    
+    @ManyToOne
+    private Medico medicoAsignado;
     
     /**
      * Contrasena del paciente
      */
     private String contrasena;
     
-
     /**
      * Estatura del paciente, en centimetros.
      */
@@ -45,13 +53,15 @@ public class Paciente implements Serializable {
     private Date fecha_nacimiento;
 
     /**
-     * Registro de IMC's
+     * Registro de IMCs
      */
+    @OneToMany(mappedBy="paciente")
     private ArrayList<ReporteIMC> reportesIMC;
     
     /**
      * Registros de Presión Arterial
      */
+    @OneToMany(mappedBy="paciente")
     private ArrayList<ReportePresionArterial> reportesPresionArterial;
     
     //--------------------------------------------------------------------------
@@ -61,9 +71,7 @@ public class Paciente implements Serializable {
     /**
      * Constructor sin argumentos (para JPA)
      */
-    public Paciente() {
-        
-    }
+    public Paciente() {}
     
     /**
      * Constructor de la clase Paciente

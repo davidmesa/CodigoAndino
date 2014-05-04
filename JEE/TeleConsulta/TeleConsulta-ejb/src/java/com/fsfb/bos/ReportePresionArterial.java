@@ -13,6 +13,7 @@ import javax.persistence.*;
  * @author Cristian
  */
 @Entity
+@Table(name = "presion_arterial")
 public class ReportePresionArterial implements Serializable {
 
     //-------------------------------------------------------------------------
@@ -23,6 +24,7 @@ public class ReportePresionArterial implements Serializable {
      * Id único del reporte
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
     /**
@@ -49,6 +51,7 @@ public class ReportePresionArterial implements Serializable {
     /**
      * Paciente asociado al Registro
      */
+    @ManyToOne
     private Paciente paciente;
     
     //-------------------------------------------------------------------------
@@ -58,9 +61,7 @@ public class ReportePresionArterial implements Serializable {
     /**
      * Constructor vacío (para JPA)
      */
-    public ReportePresionArterial() {
-        
-    }
+    public ReportePresionArterial() {}
     
     public ReportePresionArterial(Paciente paramPaciente, int paramDiastole, int paramSiastole, int paramPulsaciones, Date fecha) {
         paciente=paramPaciente;
