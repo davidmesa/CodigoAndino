@@ -17,6 +17,7 @@ import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.persistence.*;
 import javax.security.auth.message.AuthException;
 
 /**
@@ -28,6 +29,13 @@ import javax.security.auth.message.AuthException;
 public class ServicioFSFB implements ServicioFSFBLocal {
 
     private static ServicioFSFB instancia;
+    
+    /**
+     * Contexto de persistencia para manejo de entidades en la BD
+     */
+    private EntityManager em;
+    
+    private EntityManagerFactory emf;
     
     /**
      * Constante para la creación simulada de pacientes
@@ -69,6 +77,8 @@ public class ServicioFSFB implements ServicioFSFBLocal {
      */
     public ServicioFSFB()
     {
+        emf = Persistence.createEntityManagerFactory("TeleConsulta");
+        
         alertados = new ArrayList<Paciente>();
         
         consultados = new ArrayList<Paciente>();
@@ -113,7 +123,10 @@ public class ServicioFSFB implements ServicioFSFBLocal {
     @Override
     public Medico darMedicoPorDatos(String usuario, String contrasena) throws AuthException
     {
-        Medico buscado=medicos.get(usuario);
+        em = emf.createEntityManager();
+        Medico buscado=em.find(Medico.class, usuario);
+        em.close();
+        
         if(buscado!=null)
         {
             if(!buscado.getContrasena().equals(contrasena))

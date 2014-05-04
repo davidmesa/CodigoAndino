@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -34,8 +35,8 @@ public class Paciente implements Serializable {
     @Column(name = "nombre")
     private String usuario;
     
-    @ManyToOne
-    @Column(name = "medico_asignado")
+    @OneToOne
+    @JoinColumn(name = "medico_asignado")
     private Medico medicoAsignado;
     
     /**
@@ -59,13 +60,13 @@ public class Paciente implements Serializable {
      * Registro de IMCs
      */
     @OneToMany(mappedBy="paciente")
-    private ArrayList<ReporteIMC> reportesIMC;
+    private List<ReporteIMC> reportesIMC;
     
     /**
      * Registros de Presión Arterial
      */
     @OneToMany(mappedBy="paciente")
-    private ArrayList<ReportePresionArterial> reportesPresionArterial;
+    private List<ReportePresionArterial> reportesPresionArterial;
     
     //--------------------------------------------------------------------------
     //  Constructor
@@ -128,7 +129,7 @@ public class Paciente implements Serializable {
      * Retorna la Lista de Reportes de Presión Arterial
      * @return ArrayList, de objeto tipo ReportePresionArterial
      */
-    public ArrayList<ReportePresionArterial> darReportesPresionArterial()
+    public List<ReportePresionArterial> darReportesPresionArterial()
     {
         return reportesPresionArterial;
     }
@@ -137,7 +138,7 @@ public class Paciente implements Serializable {
      * Retorna la lista de Reportes IMC del Paciente
      * @return ArrayList, de objeto tipo ReporteIMC
      */
-    public ArrayList<ReporteIMC> darReportesIMC()
+    public List<ReporteIMC> darReportesIMC()
     {
         return reportesIMC;
     }

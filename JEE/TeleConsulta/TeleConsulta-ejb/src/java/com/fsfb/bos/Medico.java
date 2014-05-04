@@ -7,6 +7,7 @@ package com.fsfb.bos;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -18,14 +19,9 @@ import javax.persistence.*;
 public class Medico implements Serializable {
     
     /**
-     * Cedula del medico
-     */
-    @Id
-    private int cedula;
-    
-    /**
      * Nombre de usuario del medico
      */
+    @Id
     @Column(name = "nombre")
     private String usuario;
     
@@ -37,8 +33,8 @@ public class Medico implements Serializable {
     /**
      * Lista de Pacientes asignados
      */
-    @OneToMany(mappedBy="medico")
-    private ArrayList<Paciente> pacientes;
+    @OneToOne(mappedBy = "medico_asignado")
+    private List<Paciente> pacientes;
     
     //-------------------------------------------------------------------------
     //  Métodos
