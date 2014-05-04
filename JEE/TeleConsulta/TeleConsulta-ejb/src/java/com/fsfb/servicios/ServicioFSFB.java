@@ -78,6 +78,7 @@ public class ServicioFSFB implements ServicioFSFBLocal {
     public ServicioFSFB()
     {
         emf = Persistence.createEntityManagerFactory("TeleConsulta");
+        em = emf.createEntityManager();
         
         alertados = new ArrayList<Paciente>();
         
@@ -154,7 +155,10 @@ public class ServicioFSFB implements ServicioFSFBLocal {
         String paramUsuario=fracciones[0];
         String paramContrasena=fracciones[1];
         
-        Paciente buscado=pacientes.get(paramUsuario);
+        em = emf.createEntityManager();
+        Paciente buscado=em.find(Paciente.class, paramUsuario);
+        em.close();
+        
         if(buscado!=null)
         {
             if(!buscado.getContrasena().equals(paramContrasena))
@@ -179,7 +183,10 @@ public class ServicioFSFB implements ServicioFSFBLocal {
     @Override
     public String darTokenDelPaciente(String usuario, String contrasena) throws AuthException
     {
-        Paciente buscado=pacientes.get(usuario);
+        em = emf.createEntityManager();
+        Paciente buscado=em.find(Paciente.class, usuario);
+        em.close();
+        
         if(buscado!=null)
         {
             if(!buscado.getContrasena().equals(contrasena))
@@ -199,16 +206,22 @@ public class ServicioFSFB implements ServicioFSFBLocal {
 
     @Override
     public String registarIMC(Paciente paciente, double peso, int altura) {
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+        
         if(altura!=-1)
         {
             paciente.setEstatura(altura);
         }
         ReporteIMC retornado=paciente.registarIMC(peso, altura);
+        em.persist(paciente);
+        em.persist(retornado);
+        em.getTransaction().commit();  
+        em.close();
         
         Date fechaReporte=retornado.getFechaReporte();
         int numeroDia=fechaReporte.getDay();
         registrarReporte(numeroDia);
-        
         double imc=retornado.getIMC();
         int edad=paciente.calcularEdad();
         String cadena=null;

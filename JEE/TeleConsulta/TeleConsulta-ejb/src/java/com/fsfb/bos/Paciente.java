@@ -22,16 +22,11 @@ public class Paciente implements Serializable {
     //--------------------------------------------------------------------------
     //  Atributos
     //--------------------------------------------------------------------------
-
-    /**
-     * Cedula del paciente
-     */
-    @Id
-    private int cedula;
     
     /**
      * Nombre de usuario del paciente
      */
+    @Id
     @Column(name = "nombre")
     private String usuario;
     
