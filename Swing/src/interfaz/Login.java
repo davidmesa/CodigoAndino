@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,6 +17,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+
+import sistema.Seguridad;
 
 import mensajeria.Mensajero;
 
@@ -55,15 +58,22 @@ public class Login extends JFrame {
 
 		setTitle("TeleConsulta");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 602, 385);
+		login.setSize(360, 730);
+//		setUndecorated(true);
+//		setBounds(100, 100, 602, 385);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-
+		
+		JLabel fondo=new JLabel(new ImageIcon("data/HTC.png"));
+		
+		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Autenticaci\u00F3n",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+//		fondo.add(panel, BorderLayout.CENTER);
+		
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(new GridLayout(0, 2, 0, 0));
 
@@ -92,8 +102,11 @@ public class Login extends JFrame {
 		panel_3.add(password);
 
 		JPanel panel_1 = new JPanel();
+//		fondo.add(panel_1, BorderLayout.SOUTH);
 		contentPane.add(panel_1, BorderLayout.SOUTH);
-
+		
+//		contentPane.add(fondo);
+		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

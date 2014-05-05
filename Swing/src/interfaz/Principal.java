@@ -49,7 +49,7 @@ public class Principal extends JFrame {
 		ticker.start();
 		
 		mensajero = Mensajero.getInstance();
-
+//		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 402);
 		contentPane = new JPanel();

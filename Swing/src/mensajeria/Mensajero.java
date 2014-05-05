@@ -11,6 +11,8 @@ import java.util.Scanner;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import sistema.Seguridad;
+
 public class Mensajero {
 
 	private static final String BASE_URL = "http://localhost:8080/TeleConsulta-war/cliente/movil";
@@ -44,6 +46,7 @@ public class Mensajero {
 			valores.put("diastole", diastole + "");
 			valores.put("sistole", sistole + "");
 			valores.put("pulso", pulso + "");
+			valores.put("fecha", Seguridad.hashMD5(token+"+"+diastole+"-"+sistole+"*"+pulso));
 
 			HttpURLConnection conexion = getReadyConnection(TENSION_METHOD_NAME);
 			enviarMensaje(conexion, valores);
@@ -69,7 +72,8 @@ public class Mensajero {
 			valores.put("token", token);
 			valores.put("peso", peso + "");
 			valores.put("altura", altura + "");
-
+			valores.put("fecha", Seguridad.hashMD5(token+"+"+peso+"-"+altura));
+			
 			HttpURLConnection conexion = getReadyConnection(IMC_METHOD_NAME);
 			enviarMensaje(conexion, valores);
 			JSONObject response = (JSONObject) JSONValue.parse(darJSON(conexion
@@ -89,7 +93,8 @@ public class Mensajero {
 		HashMap<String, String> valores = new HashMap<String, String>();
 		valores.put("id", id);
 		valores.put("password", password);
-
+		valores.put("fecha", id+"+"+password);
+		
 		HttpURLConnection conexion = getReadyConnection(AUTH_METHOD_NAME);
 		enviarMensaje(conexion, valores);
 		JSONObject response = (JSONObject) JSONValue.parse(darJSON(conexion
