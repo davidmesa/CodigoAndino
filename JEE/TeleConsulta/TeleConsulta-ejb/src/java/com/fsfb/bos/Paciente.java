@@ -6,7 +6,6 @@ package com.fsfb.bos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
@@ -27,10 +26,9 @@ public class Paciente implements Serializable {
      * Nombre de usuario del paciente
      */
     @Id
-    @Column(name = "nombre")
-    private String usuario;
+    private String nombre;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "medico_asignado")
     private Medico medicoAsignado;
     
@@ -78,7 +76,7 @@ public class Paciente implements Serializable {
      * @param contrasena Contrasena del paciente.
      */
     public Paciente(String usuario, String contrasena, int estatura, Date fecha_nacimiento) {
-        this.usuario = usuario;
+        this.nombre = usuario;
         this.contrasena = contrasena;
         this.estatura = estatura;
         this.fecha_nacimiento = fecha_nacimiento;
@@ -147,7 +145,7 @@ public class Paciente implements Serializable {
      * @return the value of usuario
      */
     public String getUsuario() {
-        return usuario;
+        return nombre;
     }
 
     /**
@@ -155,7 +153,7 @@ public class Paciente implements Serializable {
      * @param usuario new value of usuario
      */
     public void setUsuario(String usuario) {
-        this.usuario = usuario;
+        this.nombre = usuario;
     }
 
     /**
@@ -255,5 +253,10 @@ public class Paciente implements Serializable {
             return fecha.toString();
         }
         return "Now";
+    }
+    
+    public void setMedico(Medico actual)
+    {
+        this.medicoAsignado = actual;
     }
 }

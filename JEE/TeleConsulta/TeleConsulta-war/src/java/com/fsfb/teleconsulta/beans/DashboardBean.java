@@ -37,6 +37,7 @@ public class DashboardBean {
      * @return the value of nombreMedico
      */
     public String getNombreMedico() {
+        System.out.print("ERROR !!! 1");
         return medico.getUsuario();
     }
     
@@ -47,6 +48,7 @@ public class DashboardBean {
      */
     public void setMedico(Medico nMedico)
     {
+        System.out.print("ERROR !!! 2");
         medico = nMedico;
         servicio.setActual(medico);
     }
@@ -58,6 +60,7 @@ public class DashboardBean {
      */
     public int getNumeroDeAlertas()
     {
+        System.out.print("ERROR !!! 3");
         return servicio.darPacientesConEmergencia().size();
     }
     
@@ -68,6 +71,7 @@ public class DashboardBean {
      */
     public int getNumeroConsejos()
     {
+        System.out.print("ERROR !!! 4");
         return servicio.darPacientesConConsulta().size();
     }
     
@@ -77,6 +81,7 @@ public class DashboardBean {
      */
     public Collection<Paciente> getReportesConsejos()
     {
+        System.out.print("ERROR !!! 5");
         return servicio.darPacientesConConsulta();
     }
     
@@ -86,6 +91,7 @@ public class DashboardBean {
      */
     public Collection<Paciente> getReportesAlerta()
     {
+        System.out.print("ERROR !!! 6");
         return servicio.darPacientesConEmergencia();
     }
     
@@ -96,6 +102,7 @@ public class DashboardBean {
      */
     public String getDataRegistrosSemana()
     {
+        System.out.print("ERROR !!! 7");
         Integer[] datos = servicio.darRegistrosSemanales();
         String respuesta = ""+ datos[0];
         for (int i = 1; i < datos.length; i++) {
@@ -106,6 +113,11 @@ public class DashboardBean {
     
     public Collection<Paciente> getPacientes()
     {
+        System.out.print("ERROR !!! 8");
         return servicio.darPacientes();
+    }
+    
+    public Medico darMedico(){
+        return medico;
     }
 }

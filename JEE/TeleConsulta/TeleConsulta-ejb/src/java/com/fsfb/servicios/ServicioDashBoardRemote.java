@@ -11,14 +11,14 @@ import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 /**
  *
  * @author Cristian
  */
-@Local
-public interface ServicioDashBoardLocal {
+@Remote
+public interface ServicioDashBoardRemote {
     
     /**
      * Retorna los Pacientes del médico en cuestión
@@ -49,8 +49,6 @@ public interface ServicioDashBoardLocal {
     public void setActual(Medico actual);
     
     Medico darMedico();
-    
-    Collection<Paciente> darPacientes( String medico);
 
 
 }

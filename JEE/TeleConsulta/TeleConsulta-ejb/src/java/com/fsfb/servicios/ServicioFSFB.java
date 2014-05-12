@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.HashMap;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
-import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.*;
 import javax.security.auth.message.AuthException;
@@ -25,7 +24,6 @@ import javax.security.auth.message.AuthException;
  * @author Cristian
  */
 @Startup
-@Singleton
 public class ServicioFSFB implements ServicioFSFBLocal {
 
     private static ServicioFSFB instancia;

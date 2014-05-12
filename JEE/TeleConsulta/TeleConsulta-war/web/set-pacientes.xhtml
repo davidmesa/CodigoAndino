@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/main-template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:ace="http://www.icefaces.org/icefaces/components">
+
+    <ui:param name="titulo" value="Dashboard" />
+    <ui:define name="body">
+        <div id="wrapper">
+
+      <!-- Sidebar -->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">FSFB - Teleconsulta</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav side-nav">
+            <li><h:link outcome="principal_menu"><i class="fa fa-dashboard"></i> Principal</h:link></li>
+            <li><h:link outcome="alertas_menu"><i class="fa fa-bar-chart-o"></i> Alertas</h:link></li>
+            <li class="active"><h:link outcome="pacientes_menu"><i class="fa fa-user"></i> Pacientes</h:link></li>
+            <li><h:link outcome="consejos_menu"><i class="fa fa-edit"></i> Consejos</h:link></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right navbar-user">
+            <li class="dropdown user-dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> #{dashboardBean.nombreMedico} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div id="page-wrapper">
+
+        <div class="row">
+          <div class="col-lg-12">
+            <h1>Pacientes</h1>
+            <ol class="breadcrumb">
+                <li class="active"><i class="fa fa-dashboard"></i> Dashboard / Pacientes / Settings</li>
+                <li class=""><h:link outcome="pacientes_menu"><i class="fa fa-chevron-left"></i> Back</h:link></li>
+            </ol>
+          </div>
+        </div><!-- /.row -->
+        <h5 class="col-lg-12" style="color: #555">Para modificar paciente, esciribr el nombre de usuario <b>exacto</b>.</h5>
+        <h:form styleClass="form-horizontal">
+            <div class="form-group">
+              <label for="user" class="col-sm-2 control-label">Usuairo</label>
+              <div class="col-sm-10">
+                  <ice:inputText 
+                      id="user" 
+                      styleClass="form-control" 
+                      value="#{pacientesBean.usuario}" 
+                      partialSubmit="true" 
+                      size="20"
+                      maxlength="15"
+                      required="true"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-sm-2 control-label">Contraseña</label>
+              <div class="col-sm-10">
+                  <ice:inputText 
+                      id="password" 
+                      styleClass="form-control" 
+                      value="#{pacientesBean.contrasena}" 
+                      partialSubmit="true" 
+                      size="20"
+                      maxlength="15"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="estatura" class="col-sm-2 control-label">Estatura</label>
+              <div class="col-sm-10">
+                  <ice:inputText 
+                      id="estatura" 
+                      styleClass="form-control" 
+                      value="#{pacientesBean.estatura}" 
+                      partialSubmit="true"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="date" class="col-sm-2 control-label">Fecha Nacimiento</label>
+              <div class="col-sm-10">
+                  <ice:inputText 
+                      id="date" 
+                      styleClass="form-control" 
+                      value="#{pacientesBean.fecha}" 
+                      partialSubmit="true"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                  <ice:commandButton 
+                      styleClass="btn btn-default"
+                      action="#{pacientesBean.ingresarDatos}"
+                      value="Agregar"/>
+              </div>
+            </div>
+          </h:form>
+        
+        
+
+        <h:form>
+            <ice:panelGroup>
+
+                <!-- Se crea una tabla donde se presentan los muebles del sistema -->
+                <ice:dataTable
+                    id="data"
+                    value="#{registroBean.clientes}"
+                    var="file"
+                    columnWidths="150px,150px,150px,150px,150px"
+                    scrollable="false"
+                    scrollHeight="100px"
+                    cellpadding="0"
+                    resizable="true"
+                    rows="5">
+                    <ice:column>
+                        <f:facet name="header">
+                            Usuario
+                        </f:facet>
+                        <ice:outputText value="#{file.documento}"/>
+                    </ice:column>
+                    <ice:column>
+                        <f:facet name="header">
+                            Medico
+                        </f:facet>
+                        <ice:outputText value="#{file.tipoDocumento}"/>
+                    </ice:column>
+                    <ice:column>
+                        <f:facet name="header">
+                            Estatura
+                        </f:facet>
+                        <ice:outputText value="#{file.nombreCompleto}"/>
+                    </ice:column>
+                    <ice:column>
+                        <f:facet name="header">
+                            Fecha Nacimiento
+                        </f:facet>
+                        <ice:outputText value="#{file.login}"/>
+                    </ice:column>                
+                    <ice:column>
+                        <f:facet name="header">
+                            <ice:outputText
+                                value="Eliminar"/>
+                        </f:facet>
+                        <ice:panelGroup style="background-color: transparent">
+
+                            <ice:commandLink id="DDRtn"
+                                             actionListener="#{registroBean.eliminar}"
+                                             value="Eliminar">
+                                <f:param name="clientId" value="#{file.login}" />
+
+                            </ice:commandLink>
+                        </ice:panelGroup>
+                    </ice:column>
+                </ice:dataTable>
+
+                <ice:panelGroup>
+
+                    <!-- Se crea y establecen propiedades del paginador -->
+                    <ice:dataPaginator id="dataScroll_1"
+                                       for="data"
+                                       vertical="false"
+                                       fastStep="3"
+                                       paginator="true"
+                                       paginatorMaxPages="4">
+                        <f:facet name="first">
+                            <i class="fa fa-fast-backward" style="margin-right: 10px; margin-left: 10px;"/>
+                        </f:facet>
+                        <f:facet name="last">
+                            <i class="fa fa-fast-forward" style="margin-right: 10px; margin-left: 10px;"/>
+                        </f:facet>
+                        <f:facet name="previous">
+                           <i class="fa fa-backward" style="margin-right: 10px; margin-left: 10px;"/>  
+                        </f:facet>
+                        <f:facet name="next">
+                            <i class="fa fa-forward" style="margin-right: 10px; margin-left: 10px;"/> 
+                        </f:facet>
+                        <f:facet name="fastforward">
+                            <i class="fa fa-step-forward" style="margin-right: 10px; margin-left: 10px;"/>
+                        </f:facet>
+                        <f:facet name="fastrewind">
+                            <i class="fa fa-step-backward" style="margin-right: 10px; margin-left: 10px;"/> 
+                        </f:facet>
+                    </ice:dataPaginator>
+                </ice:panelGroup>
+            </ice:panelGroup>
+        </h:form>
+        
+        
+      </div><!-- /#page-wrapper -->
+
+    </div><!-- /#wrapper -->
+
+    </ui:define>
+</ui:composition>

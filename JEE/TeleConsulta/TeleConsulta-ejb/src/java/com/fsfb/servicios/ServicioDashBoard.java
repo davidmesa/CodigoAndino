@@ -10,14 +10,17 @@ import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateful;
+import javax.security.auth.message.AuthException;
 
 /**
  *
  * @author Cristian
  */
-@Stateful
-public class ServicioDashBoard implements ServicioDashBoardLocal {
+@Stateful(mappedName="ServicioDashBoard", name="ServicioDashBoard")
+public class ServicioDashBoard implements ServicioDashBoardLocal, ServicioDashBoardRemote{
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -42,6 +45,17 @@ public class ServicioDashBoard implements ServicioDashBoardLocal {
     }
     
     @Override
+    public Collection<Paciente> darPacientes(String medico) {
+        try {
+            actual = fsfb.darMedicoPorDatos(medico, "algo");
+            return actual.darpacientes();
+        } catch (AuthException ex) {
+            Logger.getLogger(ServicioDashBoard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    @Override
     public ArrayList<Paciente> darPacientesConEmergencia() {
         return fsfb.darPacientesConEmergencia();
     }
@@ -59,5 +73,11 @@ public class ServicioDashBoard implements ServicioDashBoardLocal {
     @Override
     public ArrayList<Paciente> darPacientesConConsulta() {
         return fsfb.darPacientesConConsulta();
+    }
+    
+    @Override
+    public Medico darMedico()
+    {
+        return actual;
     }
 }

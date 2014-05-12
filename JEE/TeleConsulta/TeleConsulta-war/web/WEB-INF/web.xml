@@ -1,74 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-<!-- Parámetros de Icefaces -->
+    <!-- Parámetros de Icefaces -->
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <!--<param-value>Development</param-value>!-->
         <param-value>Production</param-value>
     </context-param>
-
     <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>server</param-value>
     </context-param>
-
     <context-param>
         <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
         <param-value>true</param-value>
     </context-param>
-
     <context-param>
         <param-name>javax.faces.VALIDATE_EMPTY_FIELDS</param-name>
         <param-value>false</param-value>
     </context-param>
-
     <context-param>
         <param-name>com.icesoft.faces.gmapKey</param-name>
         <param-value>ABQIAAAADlu0ZiSTam64EKaCQr9eTRTOTuQNzJNXRlYRLknj4cQ89tFfpxTEqxQnVWL4k55OPICgF5_SOZE06A</param-value>
     </context-param>
-
     <!-- Mapeo de los JSF -->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
     <servlet>
         <servlet-name>Resource Servlet</servlet-name>
         <servlet-class>com.icesoft.faces.webapp.CompatResourceServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.jsf</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/icefaces/*</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>Resource Servlet</servlet-name>
         <url-pattern>/xmlhttp/*</url-pattern>
     </servlet-mapping>
-
-     <!-- Configuración de la sesión -->
+    <!-- Configuración de la sesión -->
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-
     <!-- Página de inicio -->
     <welcome-file-list>
         <welcome-file>index.jsf</welcome-file>
     </welcome-file-list>
+    <security-constraint>
+        <display-name>Restricción de transporte a la información de acceso</display-name>
+        <web-resource-collection>
+            <web-resource-name>Página de login</web-resource-name>
+            <description>Página de login</description>
+            <url-pattern>/index.xhtml</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Restricción de acceso a la página de pacientes</display-name>
+        <web-resource-collection>
+            <web-resource-name>Página pacientes</web-resource-name>
+            <description>Página pacientes</description>
+            <url-pattern>/pacientes.jsf</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>medico</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>fsfb</realm-name>
+        <form-login-config>
+            <form-login-page>/index.jsf</form-login-page>
+            <form-error-page>/index.jsf</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <description/>
+        <role-name>medico</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>unidad</role-name>
+    </security-role>
 </web-app>

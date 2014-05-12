@@ -81,4 +81,5 @@ public interface ServicioFSFBLocal {
      * @return Arreglo de Enteros
      */
     Integer[] darRegistrosSemanales();
+    
 }

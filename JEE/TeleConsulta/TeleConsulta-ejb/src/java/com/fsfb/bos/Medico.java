@@ -33,7 +33,8 @@ public class Medico implements Serializable {
     /**
      * Lista de Pacientes asignados
      */
-    @OneToOne(mappedBy = "medico_asignado")
+    
+    @OneToMany(mappedBy = "medicoAsignado")
     private List<Paciente> pacientes;
     
     //-------------------------------------------------------------------------

@@ -12,9 +12,8 @@
 
     <!-- Reglas de navegación -->
     <navigation-rule>
-        <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>dashboard</from-outcome>
+            <from-outcome>principal_menu</from-outcome>
             <to-view-id>/dashboard.jsf</to-view-id>
             <redirect />
         </navigation-case>
@@ -22,8 +21,8 @@
     
     <navigation-rule>
         <navigation-case>
-            <from-outcome>principal_menu</from-outcome>
-            <to-view-id>/dashboard.jsf</to-view-id>
+            <from-outcome>principal_menu_unidad</from-outcome>
+            <to-view-id>/dashboard-unidad.jsf</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>
@@ -48,6 +47,14 @@
         <navigation-case>
             <from-outcome>consejos_menu</from-outcome>
             <to-view-id>/consejos.jsf</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>pacientes_settings</from-outcome>
+            <to-view-id>/set-pacientes.jsf</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>

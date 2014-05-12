@@ -27,33 +27,23 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">Login Medico</div>
                         <div class="panel-body">
-                            <h:form>
+                            <form action="j_security_check" method="POST">
                                 <div class="form-group input-group">
                                     <span class="input-group-addon">Us</span>
-                                    <ice:inputText id="TxtUs"
-                                                   styleClass="form-control"
-                                                   required="true"
-                                                   maxlength="20"
-                                                   value="#{loginBean.usuario}"
-                                                   partialSubmit="true"/>
+                                    <input id="TxtUs" class="form-control" type="text" name="j_username" maxlength="20" required="required" value="#{loginBean.usuario}"/>
               			</div>
                                 <ice:message style="color:#F00" id="usMsg" for="TxtUs"/>
                                 <div class="form-group input-group">
                                     <span class="input-group-addon">Pw</span>
-                                    <ice:inputSecret id="TxtPw"
-                                                   styleClass="form-control"
-                                                   required="true"
-                                                   maxlength="20"
-                                                   value="#{loginBean.contrasena}"
-                                                   partialSubmit="true"/>
+                                    <input id="TxtPw" class="form-control" type="password" name="j_password" maxlength="20" required="required" value="#{loginBean.contrasena}"/>
                                 </div>
                                 <ice:message id="pwMsg" style="color:#F00" for="TxtPw"/>
                                 <div class="form-group text-right">
                                     <h6 style="margin-top:0" class="col-sm-8">Si presenta problemas contactar a <samp style="color:#009">CodigoAndino</samp></h6>
-                                    <ice:commandButton action="#{loginBean.loginMedico()}" styleClass="btn btn-default col-sm-4" value="Ingresar"/>
+                                    <input type="submit" class="btn btn-default col-sm-4" value="Ingresar" action="#{loginBean.loginMedico()}"/>
                                 </div>
                                 <br/>
-                            </h:form>
+                            </form>
                         </div>
                     </div>
                 </div><!-- /.Formulario Login -->

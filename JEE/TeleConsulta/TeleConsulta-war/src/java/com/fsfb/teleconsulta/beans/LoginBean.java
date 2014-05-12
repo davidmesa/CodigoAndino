@@ -5,12 +5,13 @@
 package com.fsfb.teleconsulta.beans;
 
 import com.fsfb.bos.Medico;
-import com.fsfb.servicios.ServicioLogin;
 import com.fsfb.servicios.ServicioLoginLocal;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.security.auth.message.AuthException;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -28,6 +29,7 @@ public class LoginBean {
     
     private String contrasena;
 
+    @EJB
     private ServicioLoginLocal servicioLogin;
     
     private String mensaje;
@@ -43,7 +45,6 @@ public class LoginBean {
      * Creates a new instance of Login
      */
     public LoginBean() {
-        servicioLogin = new ServicioLogin();
     }
     
     //-----------------------------------------------------------
@@ -114,19 +115,45 @@ public class LoginBean {
      */
     public String loginMedico()
     {
+        HttpServletRequest request = (HttpServletRequest) FacesContext  
+                .getCurrentInstance().getExternalContext().getRequest();
+        if(request.isUserInRole("medico"))
+        {
+            if(autenticar(request.getUserPrincipal().getName()))
+            {
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                String outcome = "principal_menu";
+                facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
+            }
+        }
+        else if (request.isUserInRole("unidad"))
+        {
+           if(autenticar(request.getUserPrincipal().getName()))
+            {
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                String outcome = "principal_menu_unidad";
+                facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
+            } 
+        }
+        return "principal_menu";
+    }
+    
+    private boolean autenticar(String usuario)
+    {
         try {
             mostrarMensaje = false;
             mensaje = null;
             //Busco el medico y verifico el login
-            Medico medico = servicioLogin.loginMedico(usuario, contrasena);
+            Medico medico = servicioLogin.loginMedico(usuario, "algo");
             FacesContext context = FacesContext.getCurrentInstance();
             DashboardBean dashboardBean = (DashboardBean) context.getApplication().evaluateExpressionGet(context, "#{dashboardBean}", DashboardBean.class);
             dashboardBean.setMedico(medico);
-            return "dashboard";
+            return true;
         } catch (AuthException ex) {
             mostrarMensaje = true;
             mensaje = ex.getMessage();
-            return null;
+            return false;
         }
+        
     }
 }

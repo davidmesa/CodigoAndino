@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/main-template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:param name="titulo" value="Dashboard" />
+    <ui:define name="body">
+        <div id="wrapper">
+
+      <!-- Sidebar -->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">FSFB - Teleconsulta</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav side-nav">
+              <li class="active"><h:link outcome="principal_menu_unidad"><i class="fa fa-dashboard"></i> Principal</h:link></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right navbar-user">
+            <li class="dropdown user-dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> #{dashboardBean.nombreMedico} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div id="page-wrapper">
+
+        <div class="row">
+          <div class="col-lg-12">
+            <h1>Principal <small>Overview</small></h1>
+            <ol class="breadcrumb">
+              <li class="active"><i class="fa fa-dashboard"></i> Dashboard</li>
+            </ol>
+          </div>
+        </div><!-- /.row -->
+
+        <ice:panelGroup id="alertas" styleClass="row">
+          <div class="col-lg-6">
+            <div class="panel panel-danger">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="fa fa-tasks fa-5x"></i>
+                  </div>
+                  <div class="col-xs-6 text-right">
+                      <p class="announcement-heading">#{dashboardBean.numeroDeAlertas}</p>
+                    <p class="announcement-text">Alertas</p>
+                  </div>
+                </div>
+              </div>
+                <h:link outcome="alertas_menu">
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      Ver alertas
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                  </div>
+                </div>
+            </h:link>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="panel panel-warning">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <i class="fa fa-edit fa-5x"></i>
+                  </div>
+                  <div class="col-xs-6 text-right">
+                      <p class="announcement-heading">#{dashboardBean.numeroConsejos}</p>
+                    <p class="announcement-text">Consejos</p>
+                  </div>
+                </div>
+              </div>
+              <h:link outcome="pacientes_menu">
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      Ver consejos a pacientes
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                  </div>
+                </div>
+             </h:link>
+            </div>
+          </div>
+        </ice:panelGroup><!-- /.row -->
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Cantidad de logs registrados en esta semana</h3>
+              </div>
+              <div class="panel-body">
+                  <ice:outputChart type="area" styleClass="col-sm-offset-3" 
+                        data="#{dashboardBean.dataRegistrosSemana}"
+                        colors="black"
+                        yaxisTitle="Cantidad de Registros"
+                        xaxisTitle="Dias de la semana"
+                        xaxisLabels="Lunes, Martes, Miercoles, Jueves, Viernes, Sabado, Domingo"
+                        labels="Registrados"
+                        chartTitle=" "/>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.row -->
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-clock-o"></i> Actividad de IMC</h3>
+              </div>
+              <div class="panel-body">
+                <div class="list-group">
+                    <ice:panelSeries var="paciente" value="#{dashboardBean.reportesConsejos}">
+                        <a class="list-group-item">
+                            <span class="badge">#{paciente.darUltimaFechaIMC()}</span>
+                            <i class="fa fa-user"></i> #{paciente.usuario}
+                        </a>
+                    </ice:panelSeries>
+                </div>
+                <div class="text-right">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-clock-o"></i> Actividad de Tensión</h3>
+              </div>
+              <div class="panel-body">
+                <div class="list-group">
+                    <ice:panelSeries var="paciente" value="#{dashboardBean.reportesAlerta}">
+                        <a class="list-group-item">
+                            <span class="badge">#{paciente.darUltimaFechaTension()}</span>
+                            <i class="fa fa-user"></i> #{paciente.usuario}
+                        </a>
+                    </ice:panelSeries>
+                </div>
+                <div class="text-right">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.row -->
+
+      </div><!-- /#page-wrapper -->
+
+    </div><!-- /#wrapper -->
+    
+    <script type="text/javascript">
+            setInterval(function() { 
+            document.forms["myForm"].submit();}, 5*1000);
+    </script>
+    
+    <h:form id="myForm">
+        <h:commandButton id="btnLoadData" value="reload" action="/dashboard.jsf"
+        style="display:none">
+                    <f:ajax execute="@form" render=":alertas" />
+        </h:commandButton>
+    </h:form>
+
+    </ui:define>
+</ui:composition>
