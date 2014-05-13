@@ -123,10 +123,10 @@ public class TeleconsultaResource {
         try {
             List<ReporteIMC> reportes;
             reportes = serFSFB.darPacientePorToken(token).darReportesIMC();
-            String mensaje="";
+            String mensaje="*";
             for(ReporteIMC r: reportes)
             {
-                mensaje=mensaje+"*"+r.getFechaString()+"-"+r.getFechaReporte()+"-"+r.getPeso()+"-"+r.getAltura();
+                mensaje=mensaje+r.getFechaString()+"-"+r.getFechaReporte()+"-"+r.getPeso()+"-"+r.getAltura()+"-"+r.getIMC()+"*";
             }
             return "{\"mensaje\":\""+mensaje+"\"}";
             
@@ -144,10 +144,10 @@ public class TeleconsultaResource {
         try {
             List<ReportePresionArterial> reportes;
             reportes = serFSFB.darPacientePorToken(token).darReportesPresionArterial();
-            String mensaje="";
+            String mensaje="*";
             for(ReportePresionArterial r: reportes)
             {
-                mensaje=mensaje+"*"+r.getFechaString()+"-"+r.getFechaReporte()+"-"+r.getSistole()+"-"+r.getDiastole()+"-"+r.getPulsaciones();
+                mensaje=mensaje+r.getFechaString()+"-"+r.getFechaReporte()+"-"+r.getSistole()+"-"+r.getDiastole()+"-"+r.getPulsaciones()+"*";
             }
             return "{\"mensaje\":\""+mensaje+"\"}";
             
