@@ -33,6 +33,9 @@ public class ServicioFSFB implements ServicioFSFBLocal {
      */
     private EntityManager em;
     
+    /**
+     * Manejador de persistencia
+     */
     private EntityManagerFactory emf;
     
     /**
