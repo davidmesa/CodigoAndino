@@ -10,8 +10,7 @@ import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
 import com.fsfb.bos.ReporteIMC;
 import com.fsfb.bos.ReportePresionArterial;
-import java.security.KeyFactory;
-import java.security.PrivateKey;
+import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Date;
@@ -101,7 +100,7 @@ public class ServicioFSFB implements ServicioFSFBLocal {
      * Constructor
      */
     public ServicioFSFB()
-    {
+    {   
         alertados = new ArrayList<Paciente>();
         
         consultados = new ArrayList<Paciente>();
@@ -550,8 +549,8 @@ public class ServicioFSFB implements ServicioFSFBLocal {
     }
     
     public String darCifrado(String s) throws Exception {
-        Cipher c = Cipher.getInstance("AES");
-        c.init(Cipher.ENCRYPT_MODE, KeyFactory.getInstance("AES").generatePrivate(
+        Cipher c = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        c.init(Cipher.ENCRYPT_MODE, KeyFactory.getInstance("AES/ECB/PKCS5Padding").generatePrivate(
                 new PKCS8EncodedKeySpec(destransformar(SYMMETRIC_KEY))));
         return transformar(c.doFinal(destransformar(s)));
     }

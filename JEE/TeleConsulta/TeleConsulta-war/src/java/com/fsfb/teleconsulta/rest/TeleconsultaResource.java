@@ -55,9 +55,9 @@ public class TeleconsultaResource {
     @FormParam("diastole") int diastole, @FormParam("sistole") int sistole, @FormParam("pulso") int pulso) throws Exception {
         try {
             Paciente paciente = servicio.loginPaciente(token);
-            return serFSFB.darCifrado(serFSFB.registrarPresionArterial(paciente, diastole, sistole, pulso));
+            return serFSFB.registrarPresionArterial(paciente, diastole, sistole, pulso);
         } catch (Exception ex) {
-            return serFSFB.darCifrado("{\"status\":\"error\", \"mensaje\":\""+ex.getMessage()+"\"}");
+            return "{\"status\":\"error\", \"mensaje\":\""+ex.getMessage()+"\"}";
         }
     }
     
@@ -70,9 +70,9 @@ public class TeleconsultaResource {
     {
         try {
             Paciente paciente = servicio.loginPaciente(token);
-            return serFSFB.darCifrado(serFSFB.registarIMC(paciente, peso, altura));
+            return serFSFB.registarIMC(paciente, peso, altura);
         } catch (Exception e) {
-            return serFSFB.darCifrado("{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}");
+            return "{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}";
         }
     }
 
@@ -83,9 +83,9 @@ public class TeleconsultaResource {
     public String auth(@FormParam("id") String id, @FormParam("password") String password) throws Exception {
         try {
             String token = serFSFB.darTokenDelPaciente(id, password);
-            return serFSFB.darCifrado("{\"token\":\""+token+"\"}");
+            return "{\"token\":\""+token+"\"}";
         } catch(Exception e) {
-            return serFSFB.darCifrado("{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}");
+            return "{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}";
         }
     }
     
