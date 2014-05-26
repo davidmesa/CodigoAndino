@@ -6,6 +6,7 @@ package com.fsfb.teleconsulta.rest;
 
 import com.fsfb.bos.Paciente;
 import com.fsfb.servicios.*;
+import javax.crypto.Cipher;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -27,7 +28,7 @@ public class TeleconsultaResource {
     
     private ServicioLoginLocal servicio;
     
-    private ServicioFSFBLocal serFSFB;
+    private ServicioFSFB serFSFB;
 
     /**
      * Creates a new instance of TeleconsultaResource
@@ -51,12 +52,12 @@ public class TeleconsultaResource {
     @Produces("application/json")
     @Consumes("application/x-www-form-urlencoded")
     public String registrarTension(@FormParam("token") String token, @FormParam("id") String id, 
-    @FormParam("diastole") int diastole, @FormParam("sistole") int sistole, @FormParam("pulso") int pulso) {
+    @FormParam("diastole") int diastole, @FormParam("sistole") int sistole, @FormParam("pulso") int pulso) throws Exception {
         try {
             Paciente paciente = servicio.loginPaciente(token);
-            return serFSFB.registrarPresionArterial(paciente, diastole, sistole, pulso);
+            return serFSFB.darCifrado(serFSFB.registrarPresionArterial(paciente, diastole, sistole, pulso));
         } catch (Exception ex) {
-            return "{\"status\":\"error\", \"mensaje\":\""+ex.getMessage()+"\"}";
+            return serFSFB.darCifrado("{\"status\":\"error\", \"mensaje\":\""+ex.getMessage()+"\"}");
         }
     }
     
@@ -64,14 +65,14 @@ public class TeleconsultaResource {
     @Path("imc")
     @Produces("application/json")
     @Consumes("application/x-www-form-urlencoded")
-    public  String registrarIMC(@FormParam("token") String token,
-    @FormParam("peso") double peso, @FormParam("altura") int altura)
+    public String registrarIMC(@FormParam("token") String token,
+    @FormParam("peso") double peso, @FormParam("altura") int altura) throws Exception
     {
         try {
             Paciente paciente = servicio.loginPaciente(token);
-            return serFSFB.registarIMC(paciente, peso, altura);
+            return serFSFB.darCifrado(serFSFB.registarIMC(paciente, peso, altura));
         } catch (Exception e) {
-            return "{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}";
+            return serFSFB.darCifrado("{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}");
         }
     }
 
@@ -79,12 +80,26 @@ public class TeleconsultaResource {
     @Path("auth")
     @Produces("application/json")
     @Consumes("application/x-www-form-urlencoded")
-    public String auth(@FormParam("id") String id, @FormParam("password") String password) {
+    public String auth(@FormParam("id") String id, @FormParam("password") String password) throws Exception {
         try {
             String token = serFSFB.darTokenDelPaciente(id, password);
-            return "{\"token\":\""+token+"\"}";
+            return serFSFB.darCifrado("{\"token\":\""+token+"\"}");
         } catch(Exception e) {
-            return "{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}";
+            return serFSFB.darCifrado("{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}");
         }
+    }
+    
+    @POST
+    @Path("getPublicKey")
+    @Consumes("application/x-www-form-urlencoded")
+    public String getPublicKey() {
+        return serFSFB.getPublicKey();
+    }
+    
+    @POST
+    @Path("getSymmetricKey")
+    @Consumes("application/x-www-form-urlencoded")
+    public String getSymmetricKey() throws Exception {
+        return serFSFB.getSymmetricKey();
     }
 }

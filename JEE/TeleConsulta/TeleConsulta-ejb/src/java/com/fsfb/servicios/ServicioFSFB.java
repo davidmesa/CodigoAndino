@@ -10,9 +10,13 @@ import com.fsfb.bos.Medico;
 import com.fsfb.bos.Paciente;
 import com.fsfb.bos.ReporteIMC;
 import com.fsfb.bos.ReportePresionArterial;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import javax.crypto.Cipher;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
@@ -61,6 +65,37 @@ public class ServicioFSFB implements ServicioFSFBLocal {
      * Arreglo de cantidad de datos por Semana
      */
     private Integer[] registrosSemanales;
+    
+    private static final String PUBLIC_KEY = "30819f300d06092a864886f70d0101010"
+            + "50003818d0030818902818100a668b516692d4bb0b4ead35570af418dc7a28e4"
+            + "5ed6cf451e3c28943edf3a651693272fe1e1eca84411bb75fca63d09b7f78208"
+            + "8fefd9977053bd67d075aae22c09f7faabfdcd51f9f7c1938a130988f0162ce6"
+            + "329990725be35c61102a4ea708a9f1b428706de72b5c3ec4e890dec2248c272a"
+            + "91efd863dd55ad1cb3c5ba6030203010001";
+    
+    private static final String PRIVATE_KEY = "30820276020100300d06092a864886f70"
+            + "d0101010500048202603082025c02010002818100a668b516692d4bb0b4ead355"
+            + "70af418dc7a28e45ed6cf451e3c28943edf3a651693272fe1e1eca84411bb75fc"
+            + "a63d09b7f782088fefd9977053bd67d075aae22c09f7faabfdcd51f9f7c1938a1"
+            + "30988f0162ce6329990725be35c61102a4ea708a9f1b428706de72b5c3ec4e890"
+            + "dec2248c272a91efd863dd55ad1cb3c5ba603020301000102818030ddbc97a929"
+            + "18f9fa169f1a8eed981577533fee3eeb68cf874f8019878dae006820dd6dcc108"
+            + "4add3a4bcf38f2e427af732a2733855e633f240811ad40707ed48d3e0d4a23cf7"
+            + "d4135f954702b1257aebdcfa1644f078c7c714fbb60762e5023204f622305fe89"
+            + "ccbf3df32a1029ac301e9e3d149ba0321844cb8d3c9bcb6d9024100e35612f50c"
+            + "8c8d23a6e3dad60dd425036f37682453ab28d8b1df0483eb9869eb8f153adb1b9"
+            + "33cf27db933d95560c4ba9b3b7fbac7610f31898e1e0c2c196595024100bb6408"
+            + "93df44eb963f2e341b9f515415aec540b77fc9b0b2a6e2f342d97293d8a71b92b"
+            + "43f08d3f920c47bafd92a57f320f021f70fab4c802dc29aa6d530c73702406da2"
+            + "b725c2d58dc3a1dac550f1fe5b935a718821eccfe0b510a3135463ac6f7890da9"
+            + "635d108a31df70ff83759fb7f24d7744c57518c377d966f19829949ee39024100"
+            + "b1c42ceaf2a434055d3c5c8c53afd85f956364886f3e8b547f42ced87ce5d7e17"
+            + "06d94d74ef0f5fde11ae3e726d1a78b6a94c2f3d8367da51f43fc6805d8773302"
+            + "402c3c5b6448475beeec91e0a61c6565d47ddbb7ea686fe5327548d878d0be126"
+            + "247885dda7efef5e6eb5a1e6afb69605587693a9157fce2814ba74d83d70c9d64";
+    
+    private static final String SYMMETRIC_KEY = "da6acd66fe5ee39b29a3399feafb9a2"
+            + "52baf57f2827f80e85ea459d5817782c1";
     
     /**
      * Constructor
@@ -484,5 +519,40 @@ public class ServicioFSFB implements ServicioFSFBLocal {
             instancia = new ServicioFSFB();
         }
         return instancia;
+    }
+    
+    public String getPublicKey() {
+        return PUBLIC_KEY;
+    }
+    
+    public String getSymmetricKey() throws Exception {
+        Cipher c = Cipher.getInstance("RSA");
+        c.init(Cipher.ENCRYPT_MODE, KeyFactory.getInstance("RSA").generatePrivate(
+                new PKCS8EncodedKeySpec(destransformar(PRIVATE_KEY))));
+        return transformar(c.doFinal(destransformar(SYMMETRIC_KEY)));
+    }
+    
+    private byte[] destransformar(String ss) {
+        byte[] ret = new byte[ss.length()/2];
+        for (int i = 0 ; i < ret.length ; i++) {
+            ret[i] = (byte) Integer.parseInt(ss.substring(i*2,(i+1)*2), 16);
+        }
+        return ret;
+    }
+    
+    private String transformar(byte[] b) {
+        String ret = "";
+        for (int i = 0 ; i < b.length ; i++) {
+            String g = Integer.toHexString(((char)b[i])&0x00ff);
+            ret += (g.length()==1?"0":"") + g;
+        }
+        return ret;
+    }
+    
+    public String darCifrado(String s) throws Exception {
+        Cipher c = Cipher.getInstance("AES");
+        c.init(Cipher.ENCRYPT_MODE, KeyFactory.getInstance("AES").generatePrivate(
+                new PKCS8EncodedKeySpec(destransformar(SYMMETRIC_KEY))));
+        return transformar(c.doFinal(destransformar(s)));
     }
 }
