@@ -12,9 +12,6 @@ import java.util.Date;
  */
 public class ReporteIMC {
     
-
- 
-
     /**
 <<<<<<< HEAD
      * Atributo que modela el paciente al que pertence el reporte
@@ -46,7 +43,7 @@ public class ReporteIMC {
         paciente=paramPaciente;
         peso=paramPeso;
         altura=paramAltura;
-        IMC=peso/(altura*altura);
+        IMC=peso/((altura/100)*(altura/100));
         fechaReporte=fecha;
     }
 
