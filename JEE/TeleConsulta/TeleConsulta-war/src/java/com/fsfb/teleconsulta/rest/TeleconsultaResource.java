@@ -9,6 +9,7 @@ import com.fsfb.bos.ReporteIMC;
 import com.fsfb.bos.ReportePresionArterial;
 import com.fsfb.servicios.*;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.crypto.Cipher;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -57,7 +58,7 @@ public class TeleconsultaResource {
     @Path("tension")
     @Produces("application/json")
     public String registrarTension(@QueryParam("token") String token, @QueryParam("id") String id, 
-    @QueryParam("diastole") int diastole, @QueryParam("sistole") int sistole, @QueryParam("pulso") int pulso) throws Exception {
+    @QueryParam("diastole") int diastole, @QueryParam("siastole") int sistole, @QueryParam("pulso") int pulso) throws Exception {
         try {
             Paciente paciente = servicio.loginPaciente(token);
             return serFSFB.registrarPresionArterial(paciente, diastole, sistole, pulso);
@@ -70,11 +71,11 @@ public class TeleconsultaResource {
     @Path("imc")
     @Produces("application/json")
     public String registrarIMC(@QueryParam("token") String token,
-    @QueryParam("peso") double peso, @QueryParam("altura") int altura) throws Exception
+    @QueryParam("peso") String peso, @QueryParam("altura") int altura) throws Exception
     {
         try {
             Paciente paciente = servicio.loginPaciente(token);
-            return serFSFB.registarIMC(paciente, peso, altura);
+            return serFSFB.registarIMC(paciente, Double.parseDouble(peso), altura);
         } catch (Exception e) {
             return "{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}";
         }
@@ -88,11 +89,12 @@ public class TeleconsultaResource {
         try {
             Paciente paciente = servicio.loginPaciente(token);
             ArrayList<ReporteIMC> arreglo=paciente.darReportesIMC();
-            String aRetornar="*";
+            String aRetornar="&";
             for(int i=0; i<arreglo.size(); i++)
             {
                 ReporteIMC imc=arreglo.get(i);
-                aRetornar=aRetornar+imc.getFechaString()+"-"+imc.getPeso()+"-"+imc.getAltura()+"*";
+                Date fecha=imc.getFechaReporte();
+                aRetornar=aRetornar+fecha.getDate()+"/"+fecha.getMonth()+"/"+(fecha.getYear()-100)+"-"+imc.getPeso()+"-"+imc.getAltura()+"&";
             }
             return "{\"status\":\"ok\", \"mensaje\":\""+aRetornar+"\"}";
         } catch (Exception e) {
@@ -108,11 +110,12 @@ public class TeleconsultaResource {
         try {
             Paciente paciente = servicio.loginPaciente(token);
             ArrayList<ReportePresionArterial> arreglo=paciente.darReportesPresionArterial();
-            String aRetornar="*";
+            String aRetornar="&";
             for(int i=0; i<arreglo.size(); i++)
             {
                 ReportePresionArterial presion=arreglo.get(i);
-                aRetornar=aRetornar+presion.getFechaString()+"-"+presion.getSiastole()+"-"+presion.getDiastole()+"-"+presion.getPulsaciones()+"*";
+                Date fecha=presion.getFechaReporte();
+                aRetornar=aRetornar+fecha.getDate()+"/"+fecha.getMonth()+"/"+(fecha.getYear()-100)+"-"+presion.getSiastole()+"-"+presion.getDiastole()+"-"+presion.getPulsaciones()+"&";
             }
             return "{\"status\":\"ok\", \"mensaje\":\""+aRetornar+"\"}";
         } catch (Exception e) {
@@ -127,7 +130,7 @@ public class TeleconsultaResource {
         try {
             System.out.println("LLEGO a Pedir "+id+"-"+password);
             String token = serFSFB.darTokenDelPaciente(id, password);
-            return "{\"token\":\""+token+"\"}";
+            return "{\"status\":\"ok\", \"token\":\""+token+"\"}";
         } catch(Exception e) {
             return "{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}";
         }

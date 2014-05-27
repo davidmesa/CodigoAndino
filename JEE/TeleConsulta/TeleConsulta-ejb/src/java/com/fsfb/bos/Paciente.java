@@ -81,7 +81,7 @@ public class Paciente {
     public ReporteIMC registarIMC(double peso, double altura)
     {
         Date tiempo=new Date();
-        ReporteIMC reporte=new ReporteIMC(this, peso, altura, tiempo);
+        ReporteIMC reporte=new ReporteIMC(this, peso, this.estatura, tiempo);
         reportesIMC.add(reporte);
         return reporte;
     }
