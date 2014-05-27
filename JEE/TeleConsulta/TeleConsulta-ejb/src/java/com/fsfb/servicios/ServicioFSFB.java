@@ -130,7 +130,7 @@ public class ServicioFSFB implements ServicioFSFBLocal {
                 david.agregarPaciente(nuevo);
             }
         }
-        Paciente cristian=new Paciente("cristiansierra", "algo",160,new Date("22/11/1995"));
+        Paciente cristian=new Paciente("cristiansierra", "algo", 160, new Date("22/11/1995"));
         pacientes.put(cristian.getUsuario(), cristian);
         david.agregarPaciente(cristian);
     }
@@ -218,8 +218,10 @@ public class ServicioFSFB implements ServicioFSFBLocal {
 
     @Override
     public String registarIMC(Paciente paciente, double peso, int altura) {
-        if(altura!=-1)
+        System.out.println("peso:"+peso+"-altura:"+altura);
+        if(altura!=0)
         {
+            System.out.println("Entro");
             paciente.setEstatura(altura);
         }
         ReporteIMC retornado=paciente.registarIMC(peso, altura);
