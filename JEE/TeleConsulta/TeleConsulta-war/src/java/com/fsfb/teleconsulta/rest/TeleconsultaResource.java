@@ -5,13 +5,19 @@
 package com.fsfb.teleconsulta.rest;
 
 import com.fsfb.bos.Paciente;
+import com.fsfb.bos.ReporteIMC;
+import com.fsfb.bos.ReportePresionArterial;
 import com.fsfb.servicios.*;
+import java.util.ArrayList;
 import javax.crypto.Cipher;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
@@ -47,12 +53,11 @@ public class TeleconsultaResource {
      * @param pulso
      * @return 
      */
-    @POST
+    @GET
     @Path("tension")
     @Produces("application/json")
-    @Consumes("application/x-www-form-urlencoded")
-    public String registrarTension(@FormParam("token") String token, @FormParam("id") String id, 
-    @FormParam("diastole") int diastole, @FormParam("sistole") int sistole, @FormParam("pulso") int pulso) throws Exception {
+    public String registrarTension(@QueryParam("token") String token, @QueryParam("id") String id, 
+    @QueryParam("diastole") int diastole, @QueryParam("sistole") int sistole, @QueryParam("pulso") int pulso) throws Exception {
         try {
             Paciente paciente = servicio.loginPaciente(token);
             return serFSFB.registrarPresionArterial(paciente, diastole, sistole, pulso);
@@ -61,12 +66,11 @@ public class TeleconsultaResource {
         }
     }
     
-    @POST
+    @GET
     @Path("imc")
     @Produces("application/json")
-    @Consumes("application/x-www-form-urlencoded")
-    public String registrarIMC(@FormParam("token") String token,
-    @FormParam("peso") double peso, @FormParam("altura") int altura) throws Exception
+    public String registrarIMC(@QueryParam("token") String token,
+    @QueryParam("peso") double peso, @QueryParam("altura") int altura) throws Exception
     {
         try {
             Paciente paciente = servicio.loginPaciente(token);
@@ -75,13 +79,53 @@ public class TeleconsultaResource {
             return "{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}";
         }
     }
+    
+    @GET
+    @Path("reportesimc")
+    @Produces("application/json")
+    public String reportesIMC(@QueryParam("token") String token) throws Exception
+    {
+        try {
+            Paciente paciente = servicio.loginPaciente(token);
+            ArrayList<ReporteIMC> arreglo=paciente.darReportesIMC();
+            String aRetornar="*";
+            for(int i=0; i<arreglo.size(); i++)
+            {
+                ReporteIMC imc=arreglo.get(i);
+                aRetornar=aRetornar+imc.getFechaString()+"-"+imc.getPeso()+"-"+imc.getAltura()+"*";
+            }
+            return "{\"status\":\"ok\", \"mensaje\":\""+aRetornar+"\"}";
+        } catch (Exception e) {
+            return "{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}";
+        }
+    }
 
-    @POST
+    @GET
+    @Path("reportestension")
+    @Produces("application/json")
+    public String reportesTension(@QueryParam("token") String token) throws Exception
+    {
+        try {
+            Paciente paciente = servicio.loginPaciente(token);
+            ArrayList<ReportePresionArterial> arreglo=paciente.darReportesPresionArterial();
+            String aRetornar="*";
+            for(int i=0; i<arreglo.size(); i++)
+            {
+                ReportePresionArterial presion=arreglo.get(i);
+                aRetornar=aRetornar+presion.getFechaString()+"-"+presion.getSiastole()+"-"+presion.getDiastole()+"-"+presion.getPulsaciones()+"*";
+            }
+            return "{\"status\":\"ok\", \"mensaje\":\""+aRetornar+"\"}";
+        } catch (Exception e) {
+            return "{\"status\":\"error\", \"mensaje\":\""+e.getMessage()+"\"}";
+        }
+    }
+    
+    @GET
     @Path("auth")
     @Produces("application/json")
-    @Consumes("application/x-www-form-urlencoded")
-    public String auth(@FormParam("id") String id, @FormParam("password") String password) throws Exception {
+    public String auth(@QueryParam("id") String id, @QueryParam("password") String password) throws Exception {
         try {
+            System.out.println("LLEGO a Pedir "+id+"-"+password);
             String token = serFSFB.darTokenDelPaciente(id, password);
             return "{\"token\":\""+token+"\"}";
         } catch(Exception e) {
